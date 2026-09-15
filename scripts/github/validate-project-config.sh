@@ -14,6 +14,7 @@ readonly ISSUES_FILE="${REPO_ROOT}/config/github/issues.tsv"
 readonly LABELS_FILE="${REPO_ROOT}/config/github/labels.tsv"
 readonly MILESTONES_FILE="${REPO_ROOT}/config/github/milestones.tsv"
 readonly FIELDS_FILE="${REPO_ROOT}/config/github/project-fields.tsv"
+readonly SCOPES_FILE="${REPO_ROOT}/config/github/issue-scopes.tsv"
 
 errors=0
 
@@ -109,7 +110,8 @@ validate_no_backslashes() {
         "${ISSUES_FILE}" \
         "${LABELS_FILE}" \
         "${MILESTONES_FILE}" \
-        "${FIELDS_FILE}"; do
+        "${FIELDS_FILE}" \
+        "${SCOPES_FILE}"; do
 
         if grep -Fq '\' "${file}"; then
             validation_error "Unexpected backslash detected in ${file}"
@@ -270,6 +272,126 @@ validate_github_labels() {
     fi
 }
 
+validate_scope_header() {
+    local expected
+    local actual
+
+    expected=$'key\tobjective\tscope\tacceptance'
+    actual="$(head -n 1 "${SCOPES_FILE}")"
+
+    if [[ "${actual}" != "${expected}" ]]; then
+        validation_error "issue-scopes.tsv header does not match the required schema."
+    else
+        validation_pass "issue-scopes.tsv header is valid."
+    fi
+}
+
+validate_scope_schema() {
+    local invalid_rows
+
+    invalid_rows="$(
+        awk -F '\t' '
+            NR == 1 {next}
+            NF != 4 {
+                print NR ":" NF
+            }
+        ' "${SCOPES_FILE}"
+    )"
+
+    if [[ -n "${invalid_rows}" ]]; then
+        validation_error "issue-scopes.tsv contains rows that do not have 4 fields: ${invalid_rows}"
+    else
+        validation_pass "issue-scopes.tsv contains exactly 4 fields per scope."
+    fi
+}
+
+validate_scope_required_values() {
+    local invalid_rows
+
+    invalid_rows="$(
+        awk -F '\t' '
+            NR == 1 {next}
+            $1 == "" || $2 == "" || $3 == "" || $4 == "" {
+                print "line " NR
+            }
+        ' "${SCOPES_FILE}"
+    )"
+
+    if [[ -n "${invalid_rows}" ]]; then
+        validation_error "issue-scopes.tsv contains empty required values: ${invalid_rows}"
+    else
+        validation_pass "All scope records contain required values."
+    fi
+}
+
+validate_unique_scope_keys() {
+    local duplicates
+
+    duplicates="$(
+        tail -n +2 "${SCOPES_FILE}" |
+            cut -f1 |
+            sort |
+            uniq -d
+    )"
+
+    if [[ -n "${duplicates}" ]]; then
+        validation_error "Duplicate scope keys detected: ${duplicates}"
+    else
+        validation_pass "Scope keys are unique."
+    fi
+}
+
+validate_scope_issue_key_parity() {
+    local issue_keys
+    local scope_keys
+    local missing_scopes
+    local orphan_scopes
+    local issue_count
+    local scope_count
+
+    issue_keys="$(mktemp)"
+    scope_keys="$(mktemp)"
+
+    tail -n +2 "${ISSUES_FILE}" |
+        cut -f1 |
+        sort -u > "${issue_keys}"
+
+    tail -n +2 "${SCOPES_FILE}" |
+        cut -f1 |
+        sort -u > "${scope_keys}"
+
+    missing_scopes="$(
+        comm -23 "${issue_keys}" "${scope_keys}"
+    )"
+
+    orphan_scopes="$(
+        comm -13 "${issue_keys}" "${scope_keys}"
+    )"
+
+    issue_count="$(wc -l < "${issue_keys}")"
+    scope_count="$(wc -l < "${scope_keys}")"
+
+    rm -f "${issue_keys}" "${scope_keys}"
+
+    if [[ -n "${missing_scopes}" ]]; then
+        validation_error "Issue keys missing technical scope records: ${missing_scopes}"
+    else
+        validation_pass "Every issue key has a technical scope record."
+    fi
+
+    if [[ -n "${orphan_scopes}" ]]; then
+        validation_error "Scope keys not present in issues.tsv: ${orphan_scopes}"
+    else
+        validation_pass "Every scope key maps to a configured issue."
+    fi
+
+    if [[ "${issue_count}" != "${scope_count}" ]]; then
+        validation_error "Issue/scope unique-key counts differ: issues=${issue_count}, scopes=${scope_count}"
+    else
+        validation_pass "Issue/scope unique-key counts match: ${issue_count}."
+    fi
+}
+
 main() {
     initialize_github_automation
 
@@ -277,6 +399,7 @@ main() {
     require_file "${LABELS_FILE}"
     require_file "${MILESTONES_FILE}"
     require_file "${FIELDS_FILE}"
+    require_file "${SCOPES_FILE}"
 
     if ((errors > 0)); then
         fail "Required project configuration files are missing."
@@ -288,6 +411,11 @@ main() {
     validate_issue_schema
     validate_unique_issue_keys
     validate_unique_issue_titles
+    validate_scope_header
+    validate_scope_schema
+    validate_scope_required_values
+    validate_unique_scope_keys
+    validate_scope_issue_key_parity
     validate_no_backslashes
     validate_controlled_values
     validate_milestone_references
