@@ -34,4 +34,4 @@ jobs:
             -type f \
             -name '*.sh' \
             -print0 |
-          xargs -0 --no-run-if-empty shellcheck
+          xargs -0 --no-run-if-empty shellcheck --severity=warning

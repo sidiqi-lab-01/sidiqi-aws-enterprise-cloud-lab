@@ -1,0 +1,29 @@
+priority:P0	B60205	Critical priority
+priority:P1	D93F0B	High priority
+priority:P2	FBCA04	Normal priority
+type:feature	1D76DB	New engineering capability
+type:security	B60205	Security-related work
+type:automation	5319E7	Automation and reusable tooling
+type:documentation	0075CA	Documentation work
+type:bug	D73A4A	Defect or unexpected behavior
+type:research	D4C5F9	Research, evaluation, or proof of concept
+domain:governance	0052CC	Governance and project controls
+domain:iam	7057FF	Identity and access management
+domain:networking	0E8A16	Networking and connectivity
+domain:compute	1D76DB	Compute services
+domain:storage	006B75	Storage services
+domain:database	5319E7	Database and data services
+domain:containers	0E8A16	Container services
+domain:kubernetes	326CE5	Kubernetes and EKS
+domain:serverless	F9D0C4	Serverless architecture
+domain:security	B60205	Security engineering
+domain:observability	FBCA04	Monitoring, logging, and observability
+domain:devsecops	5319E7	DevSecOps and delivery engineering
+domain:finops	C2E0C6	Cost management and optimization
+domain:dr	D4C5F9	Backup, resilience, and disaster recovery
+status:blocked	B60205	Work is currently blocked
+status:needs-review	FBCA04	Work requires review
+iac:terraform	623CE4	Terraform Infrastructure as Code
+automation:ansible	EE0000	Ansible automation
+cicd:github-actions	2088FF	GitHub Actions CI/CD
+gitops:argocd	EF7B4D	Argo CD GitOps

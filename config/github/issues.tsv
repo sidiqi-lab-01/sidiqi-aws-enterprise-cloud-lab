@@ -1,0 +1,78 @@
+key	title	milestone	priority	domain	work_type	phase	effort	risk	environment	labels
+GOV-001	Establish repository governance and main branch protection	M01 Engineering & Project Foundation	P0	Governance	Security	Foundation	M	High	Lab	priority:P0,type:security,domain:governance
+GOV-002	Implement GitHub project management automation	M01 Engineering & Project Foundation	P0	Governance	Automation	Foundation	L	Medium	Lab	priority:P0,type:automation,domain:governance
+GOV-003	Establish issue and pull request templates	M01 Engineering & Project Foundation	P1	Governance	Documentation	Foundation	S	Low	Lab	priority:P1,type:documentation,domain:governance
+GOV-004	Establish repository ownership and review model	M01 Engineering & Project Foundation	P1	Governance	Security	Foundation	S	Medium	Lab	priority:P1,type:security,domain:governance
+GOV-005	Build reusable engineering workstation bootstrap	M01 Engineering & Project Foundation	P1	DevSecOps	Automation	Foundation	M	Medium	Lab	priority:P1,type:automation,domain:devsecops
+GOV-006	Assess and remediate GitHub CLI compatibility	M01 Engineering & Project Foundation	P1	DevSecOps	Automation	Foundation	S	Low	Lab	priority:P1,type:automation,domain:devsecops
+GOV-007	Establish architecture decision record standard	M01 Engineering & Project Foundation	P2	Governance	Documentation	Foundation	S	Low	Lab	priority:P2,type:documentation,domain:governance
+IAM-001	Establish AWS account and identity security baseline	M02 AWS Governance & IAM	P0	IAM	Security	Foundation	M	High	Lab	priority:P0,type:security,domain:iam
+IAM-002	Design IAM role and access model	M02 AWS Governance & IAM	P0	IAM	Security	Foundation	M	High	Lab	priority:P0,type:security,domain:iam
+IAM-003	Implement Terraform deployment role and least-privilege access	M02 AWS Governance & IAM	P0	IAM	Feature	Build	L	High	Lab	priority:P0,type:feature,domain:iam,iac:terraform
+IAM-004	Implement IAM policy validation and access analysis	M02 AWS Governance & IAM	P1	IAM	Security	Validate	M	High	Lab	priority:P1,type:security,domain:iam
+IAM-005	Implement tagging and resource ownership standard	M02 AWS Governance & IAM	P1	Governance	Feature	Foundation	S	Medium	Lab	priority:P1,type:feature,domain:governance
+IAM-006	Implement secrets and credential handling baseline	M02 AWS Governance & IAM	P0	Security	Security	Foundation	M	Critical	Lab	priority:P0,type:security,domain:security
+NET-001	Design enterprise multi-AZ VPC architecture	M03 Enterprise Networking	P0	Networking	Feature	Foundation	L	High	Lab	priority:P0,type:feature,domain:networking,iac:terraform
+NET-002	Implement VPC and subnet Infrastructure as Code	M03 Enterprise Networking	P0	Networking	Feature	Build	L	High	Lab	priority:P0,type:feature,domain:networking,iac:terraform
+NET-003	Implement internet gateway NAT and route architecture	M03 Enterprise Networking	P0	Networking	Feature	Build	M	High	Lab	priority:P0,type:feature,domain:networking,iac:terraform
+NET-004	Implement security groups and network ACL controls	M03 Enterprise Networking	P0	Networking	Security	Build	M	High	Lab	priority:P0,type:security,domain:networking
+NET-005	Implement VPC endpoints and private AWS service access	M03 Enterprise Networking	P1	Networking	Security	Build	M	Medium	Lab	priority:P1,type:security,domain:networking
+NET-006	Implement Route 53 DNS architecture	M03 Enterprise Networking	P1	Networking	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:networking
+NET-007	Implement application load balancing architecture	M03 Enterprise Networking	P1	Networking	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:networking
+NET-008	Implement VPC flow logs and network validation	M03 Enterprise Networking	P1	Networking	Security	Validate	M	Medium	Lab	priority:P1,type:security,domain:networking,domain:observability
+CMP-001	Implement secure EC2 baseline	M04 Compute & Storage	P0	Compute	Security	Build	L	High	Lab	priority:P0,type:security,domain:compute,iac:terraform
+CMP-002	Implement launch templates and Auto Scaling	M04 Compute & Storage	P1	Compute	Feature	Build	L	Medium	Lab	priority:P1,type:feature,domain:compute,iac:terraform
+CMP-003	Implement Systems Manager managed-instance operations	M04 Compute & Storage	P1	Compute	Automation	Build	M	Medium	Lab	priority:P1,type:automation,domain:compute
+STO-001	Implement secure S3 architecture	M04 Compute & Storage	P0	Storage	Security	Build	M	High	Lab	priority:P0,type:security,domain:storage,iac:terraform
+STO-002	Implement EBS encryption snapshot and lifecycle controls	M04 Compute & Storage	P1	Storage	Security	Build	M	Medium	Lab	priority:P1,type:security,domain:storage
+STO-003	Implement shared EFS storage architecture	M04 Compute & Storage	P2	Storage	Feature	Build	M	Medium	Lab	priority:P2,type:feature,domain:storage
+DB-001	Design managed database architecture	M05 Databases & Data Services	P1	Database	Feature	Foundation	M	High	Lab	priority:P1,type:feature,domain:database
+DB-002	Implement encrypted highly available RDS deployment	M05 Databases & Data Services	P1	Database	Security	Build	L	High	Lab	priority:P1,type:security,domain:database,iac:terraform
+DB-003	Implement DynamoDB workload and security controls	M05 Databases & Data Services	P2	Database	Feature	Build	M	Medium	Lab	priority:P2,type:feature,domain:database
+DB-004	Validate database backup restore and failure recovery	M05 Databases & Data Services	P1	Database	Feature	Validate	M	High	Lab	priority:P1,type:feature,domain:database,domain:dr
+CON-001	Implement ECR container registry and image controls	M06 Containers & Kubernetes	P0	Containers	Security	Build	M	High	Lab	priority:P0,type:security,domain:containers
+CON-002	Deploy containerized workload with ECS	M06 Containers & Kubernetes	P1	Containers	Feature	Build	L	Medium	Lab	priority:P1,type:feature,domain:containers
+K8S-001	Design production-style EKS architecture	M06 Containers & Kubernetes	P0	Kubernetes	Feature	Foundation	L	High	Lab	priority:P0,type:feature,domain:kubernetes
+K8S-002	Provision EKS cluster using Infrastructure as Code	M06 Containers & Kubernetes	P0	Kubernetes	Feature	Build	XL	High	Lab	priority:P0,type:feature,domain:kubernetes,iac:terraform
+K8S-003	Implement Kubernetes workload security and RBAC	M06 Containers & Kubernetes	P0	Kubernetes	Security	Build	L	High	Lab	priority:P0,type:security,domain:kubernetes
+K8S-004	Implement Helm application packaging	M06 Containers & Kubernetes	P1	Kubernetes	Automation	Build	M	Medium	Lab	priority:P1,type:automation,domain:kubernetes
+K8S-005	Implement EKS observability and operational validation	M06 Containers & Kubernetes	P1	Kubernetes	Feature	Validate	L	High	Lab	priority:P1,type:feature,domain:kubernetes,domain:observability
+SRV-001	Implement secure Lambda application	M07 Serverless & Integration	P1	Serverless	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:serverless
+SRV-002	Implement API Gateway integration	M07 Serverless & Integration	P1	Serverless	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:serverless
+SRV-003	Implement event-driven messaging with SNS and SQS	M07 Serverless & Integration	P1	Serverless	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:serverless
+SRV-004	Implement Step Functions workflow orchestration	M07 Serverless & Integration	P2	Serverless	Feature	Integrate	M	Medium	Lab	priority:P2,type:feature,domain:serverless
+DEV-001	Establish modular Terraform architecture	M08 DevSecOps & GitOps	P0	DevSecOps	Automation	Foundation	L	High	Lab	priority:P0,type:automation,domain:devsecops,iac:terraform
+DEV-002	Implement Terraform remote state and locking	M08 DevSecOps & GitOps	P0	DevSecOps	Security	Build	M	High	Lab	priority:P0,type:security,domain:devsecops,iac:terraform
+DEV-003	Implement Ansible configuration automation	M08 DevSecOps & GitOps	P1	DevSecOps	Automation	Build	L	Medium	Lab	priority:P1,type:automation,domain:devsecops,automation:ansible
+DEV-004	Implement infrastructure CI validation pipeline	M08 DevSecOps & GitOps	P0	DevSecOps	Automation	Build	L	High	Lab	priority:P0,type:automation,domain:devsecops,cicd:github-actions
+DEV-005	Implement IaC and secret security scanning	M08 DevSecOps & GitOps	P0	DevSecOps	Security	Build	L	Critical	Lab	priority:P0,type:security,domain:devsecops
+DEV-006	Implement Argo CD GitOps delivery	M08 DevSecOps & GitOps	P1	DevSecOps	Automation	Integrate	L	High	Lab	priority:P1,type:automation,domain:devsecops,gitops:argocd
+DEV-007	Build air-gapped deployment simulation workflow	M08 DevSecOps & GitOps	P1	DevSecOps	Automation	Integrate	XL	High	Air-gapped Simulation	priority:P1,type:automation,domain:devsecops
+SEC-001	Implement KMS encryption architecture	M09 Security & Compliance	P0	Security	Security	Build	M	High	Lab	priority:P0,type:security,domain:security
+SEC-002	Implement Secrets Manager and Parameter Store controls	M09 Security & Compliance	P0	Security	Security	Build	M	Critical	Lab	priority:P0,type:security,domain:security
+SEC-003	Implement organization-wide audit logging pattern	M09 Security & Compliance	P0	Security	Security	Build	L	Critical	Lab	priority:P0,type:security,domain:security
+SEC-004	Implement AWS Config governance controls	M09 Security & Compliance	P1	Security	Security	Build	L	High	Lab	priority:P1,type:security,domain:security
+SEC-005	Implement GuardDuty threat detection	M09 Security & Compliance	P1	Security	Security	Build	M	High	Lab	priority:P1,type:security,domain:security
+SEC-006	Implement Security Hub findings workflow	M09 Security & Compliance	P1	Security	Security	Integrate	M	High	Lab	priority:P1,type:security,domain:security
+SEC-007	Perform security posture assessment and remediation	M09 Security & Compliance	P0	Security	Security	Validate	L	Critical	Lab	priority:P0,type:security,domain:security
+OBS-001	Implement centralized CloudWatch logging	M10 Observability & Operations	P0	Observability	Feature	Build	L	High	Lab	priority:P0,type:feature,domain:observability
+OBS-002	Implement metrics dashboards and alarms	M10 Observability & Operations	P1	Observability	Feature	Build	L	Medium	Lab	priority:P1,type:feature,domain:observability
+OBS-003	Implement operational runbooks and incident procedures	M10 Observability & Operations	P1	Observability	Documentation	Build	M	High	Lab	priority:P1,type:documentation,domain:observability
+OBS-004	Implement automated operational remediation	M10 Observability & Operations	P1	Observability	Automation	Integrate	L	High	Lab	priority:P1,type:automation,domain:observability
+DR-001	Design backup and disaster recovery architecture	M11 Backup & Disaster Recovery	P0	Disaster Recovery	Feature	Foundation	L	High	Lab	priority:P0,type:feature,domain:dr
+DR-002	Implement AWS Backup policies and vault controls	M11 Backup & Disaster Recovery	P0	Disaster Recovery	Security	Build	L	High	Lab	priority:P0,type:security,domain:dr
+DR-003	Execute restore and recovery validation	M11 Backup & Disaster Recovery	P0	Disaster Recovery	Feature	Validate	L	Critical	Lab	priority:P0,type:feature,domain:dr
+DR-004	Conduct simulated disaster recovery exercise	M11 Backup & Disaster Recovery	P1	Disaster Recovery	Feature	Validate	XL	Critical	Lab	priority:P1,type:feature,domain:dr
+FIN-001	Implement enterprise resource tagging strategy	M12 FinOps & Optimization	P1	FinOps	Feature	Foundation	M	Medium	Lab	priority:P1,type:feature,domain:finops
+FIN-002	Implement AWS budgets and cost alerts	M12 FinOps & Optimization	P0	FinOps	Feature	Build	S	High	Lab	priority:P0,type:feature,domain:finops
+FIN-003	Implement cost visibility and optimization reporting	M12 FinOps & Optimization	P1	FinOps	Feature	Build	M	Medium	Lab	priority:P1,type:feature,domain:finops
+FIN-004	Perform infrastructure rightsizing and cost optimization	M12 FinOps & Optimization	P1	FinOps	Feature	Validate	M	Medium	Lab	priority:P1,type:feature,domain:finops
+INT-001	Deploy integrated enterprise reference application	M13 Enterprise Integration	P0	Integration	Feature	Integrate	XL	High	Production-like	priority:P0,type:feature
+INT-002	Validate end-to-end security controls	M13 Enterprise Integration	P0	Integration	Security	Validate	L	Critical	Production-like	priority:P0,type:security,domain:security
+INT-003	Execute infrastructure failure and resilience scenarios	M13 Enterprise Integration	P0	Integration	Feature	Validate	XL	Critical	Production-like	priority:P0,type:feature,domain:dr
+INT-004	Validate complete CI/CD and GitOps lifecycle	M13 Enterprise Integration	P0	Integration	Automation	Validate	L	High	Production-like	priority:P0,type:automation,domain:devsecops
+PORT-001	Create final enterprise architecture documentation	M14 Portfolio & Final Validation	P1	Portfolio	Documentation	Complete	L	Medium	Lab	priority:P1,type:documentation
+PORT-002	Create architecture diagrams and service maps	M14 Portfolio & Final Validation	P1	Portfolio	Documentation	Complete	M	Low	Lab	priority:P1,type:documentation
+PORT-003	Create technical demonstration and validation runbook	M14 Portfolio & Final Validation	P1	Portfolio	Documentation	Complete	L	Medium	Lab	priority:P1,type:documentation
+PORT-004	Create interview-ready engineering narratives	M14 Portfolio & Final Validation	P2	Portfolio	Documentation	Complete	M	Low	Lab	priority:P2,type:documentation
+PORT-005	Perform final security cost and architecture review	M14 Portfolio & Final Validation	P0	Portfolio	Security	Complete	L	Critical	Lab	priority:P0,type:security,domain:security

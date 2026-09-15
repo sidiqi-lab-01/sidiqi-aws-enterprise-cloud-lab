@@ -1,0 +1,11 @@
+name	layout	filter
+Executive Roadmap	roadmap	is:issue
+Backlog	table	is:issue is:open
+Active Work	board	is:issue is:open
+By Milestone	table	is:issue
+By Priority	table	is:issue is:open
+Security	table	is:issue is:open Domain:Security
+Infrastructure & IaC	table	is:issue is:open
+Automation & DevSecOps	table	is:issue is:open
+Blocked	table	is:issue is:open label:"status:blocked"
+Completed	table	is:issue is:closed
