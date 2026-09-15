@@ -254,7 +254,7 @@ query($org: String!, $number: Int!) {
     while IFS=$'\t' read -r \
         key \
         title \
-        milestone \
+        _milestone \
         priority \
         domain \
         work_type \
@@ -262,7 +262,7 @@ query($org: String!, $number: Int!) {
         effort \
         risk \
         environment \
-        labels
+        _labels
     do
         [[ -z "${key}" ]] && continue
 
