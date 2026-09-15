@@ -1,0 +1,58 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Terraform plans
+*.tfplan
+tfplan
+
+# Terraform CLI
+.terraformrc
+terraform.rc
+
+# AWS
+.aws/
+credentials
+
+# SSH / Keys
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+
+# Environment / Secrets
+.env
+.env.*
+*.secret
+*.secrets
+
+# Ansible
+*.retry
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
