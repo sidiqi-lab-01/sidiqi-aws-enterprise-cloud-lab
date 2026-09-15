@@ -194,7 +194,6 @@ main() {
 
     local key
     local title
-    local milestone
     local priority
     local domain
     local work_type
@@ -202,7 +201,6 @@ main() {
     local effort
     local risk
     local environment
-    local labels
 
     local issue_number
     local item_id
