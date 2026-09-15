@@ -50,12 +50,15 @@ Authorized IAM Role
       |
       v
 Least-Privilege AWS Permissions
+```
 Human engineers receive only the permissions required for normal engineering
 activities.
 
 Administrative privileges are not part of the normal engineering access path.
 
-Administrative Access
+### Administrative Access
+
+```text
 Authorized Administrator
         |
         v
@@ -72,14 +75,14 @@ Administrative IAM Role
         |
         v
 Elevated AWS Permissions
-
 Administrative access requires an intentional privilege-elevation action.
 
 The design minimizes standing administrative privilege and creates a distinct
 authorization boundary between routine engineering work and privileged
 operations.
 
-Workload Access
+### Workload Access
+
 AWS Workload
      |
      v
@@ -97,7 +100,8 @@ Required AWS Service
 AWS workloads use roles and temporary credentials where supported instead of
 embedded long-lived access keys.
 
-Automation Access
+### Automation Access
+
 Approved Automation
        |
        v
