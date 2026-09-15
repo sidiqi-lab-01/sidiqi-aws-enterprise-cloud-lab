@@ -1,0 +1,14 @@
+M01 Engineering & Project Foundation	GitHub project management, repository governance, engineering standards, automation, and project controls.
+M02 AWS Governance & IAM	AWS account governance, IAM users, roles, policies, access controls, and identity architecture.
+M03 Enterprise Networking	Enterprise VPC architecture, subnets, routing, NAT, endpoints, DNS, load balancing, and network security.
+M04 Compute & Storage	EC2, Auto Scaling, EBS, S3, EFS, lifecycle management, and resilient compute/storage architecture.
+M05 Databases & Data Services	Managed relational, NoSQL, caching, availability, backup, and database security patterns.
+M06 Containers & Kubernetes	ECR, ECS, EKS, Kubernetes operations, Helm, container security, and cluster architecture.
+M07 Serverless & Integration	Lambda, API Gateway, event-driven services, workflow orchestration, messaging, and integration patterns.
+M08 DevSecOps & GitOps	Terraform, Ansible, GitHub Actions, Argo CD, automated testing, scanning, and deployment workflows.
+M09 Security & Compliance	KMS, secrets management, CloudTrail, Config, GuardDuty, Security Hub, detection, and compliance controls.
+M10 Observability & Operations	CloudWatch, centralized logging, metrics, alarms, Systems Manager, incident response, and operational runbooks.
+M11 Backup & Disaster Recovery	AWS Backup, recovery architecture, resilience testing, restore procedures, and disaster recovery.
+M12 FinOps & Optimization	Budgets, tagging, cost visibility, rightsizing, resource optimization, and financial governance.
+M13 Enterprise Integration	Integrated architecture testing, failure scenarios, cross-service validation, and production-style operations.
+M14 Portfolio & Final Validation	Architecture documentation, demonstrations, evidence, final validation, and portfolio/interview material.

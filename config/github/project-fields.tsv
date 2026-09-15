@@ -1,0 +1,7 @@
+Priority	SINGLE_SELECT	P0,P1,P2
+Domain	SINGLE_SELECT	Governance,IAM,Networking,Compute,Storage,Database,Containers,Kubernetes,Serverless,Security,Observability,DevSecOps,FinOps,Disaster Recovery,Integration,Portfolio
+Work Type	SINGLE_SELECT	Feature,Security,Automation,Documentation,Bug,Research
+Phase	SINGLE_SELECT	Foundation,Build,Integrate,Validate,Complete
+Effort	SINGLE_SELECT	XS,S,M,L,XL
+Risk	SINGLE_SELECT	Low,Medium,High,Critical
+Environment	SINGLE_SELECT	Lab,Development,Staging,Production-like,Air-gapped Simulation
