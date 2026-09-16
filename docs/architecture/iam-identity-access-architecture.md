@@ -75,6 +75,7 @@ Administrative IAM Role
         |
         v
 Elevated AWS Permissions
+```
 Administrative access requires an intentional privilege-elevation action.
 
 The design minimizes standing administrative privilege and creates a distinct
@@ -83,6 +84,7 @@ operations.
 
 ### Workload Access
 
+```text
 AWS Workload
      |
      v
@@ -96,12 +98,15 @@ Scoped AWS Permissions
      |
      v
 Required AWS Service
+```
+
 
 AWS workloads use roles and temporary credentials where supported instead of
 embedded long-lived access keys.
 
 ### Automation Access
 
+```text
 Approved Automation
        |
        v
@@ -115,26 +120,30 @@ Scoped Deployment Permissions
        |
        v
 AWS Resources
+```
+
 
 Infrastructure automation receives permissions through dedicated roles rather
 than sharing human administrative identities.
 
-4. Identity Types
+## 4. Identity Types
 
 The architecture defines four primary identity categories.
 
-Identity Type	Purpose	Credential Model	Privilege Model
-Human engineering identity	Routine engineering operations	Temporary credentials preferred	Least privilege
-Administrative identity/role	Privileged administrative operations	Controlled role assumption	Elevated, intentionally assumed
-Automation identity	Terraform and approved automation	Role-based temporary credentials	Deployment-specific
-Workload identity	EC2, Kubernetes, and AWS services	Service/workload roles	Application-specific
+| Identity Type | Purpose | Credential Model | Privilege Model |
+| --- | --- | --- | --- |
+| Human engineering identity | Routine engineering operations | Temporary credentials preferred | Least privilege |
+| Administrative identity/role | Privileged administrative operations | Controlled role assumption | Elevated, intentionally assumed |
+| Automation identity | Terraform and approved automation | Role-based temporary credentials | Deployment-specific |
+| Workload identity | EC2, Kubernetes, and AWS services | Service/workload roles | Application-specific |
 
 These identities must not be treated as interchangeable.
 
-5. Trust Boundaries
+## 5. Trust Boundaries
 
 The primary IAM trust boundaries are:
 
+```text
 Human Identity
       |
       | Authentication boundary
@@ -162,11 +171,13 @@ Workload Role
       | Authorization boundary
       v
 AWS Service
+```
+
 
 Crossing a trust boundary requires an explicitly authorized authentication or
 role-assumption mechanism.
 
-6. Separation of Responsibilities
+## 6. Separation of Responsibilities
 
 The architecture separates:
 
@@ -182,7 +193,7 @@ A workload role must not be reused as a human administrative role.
 A Terraform deployment role must not automatically provide unrestricted
 administrative access.
 
-7. Least-Privilege Model
+## 7. Least-Privilege Model
 
 Permissions are granted according to the minimum actions and resources required
 for a defined responsibility.
@@ -196,7 +207,7 @@ Document justified exceptions.
 Separate trust policy configuration from permission policy configuration.
 Be reviewed as responsibilities change.
 Support automated policy and security validation where practical.
-8. Authentication Expectations
+## 8. Authentication Expectations
 
 Human access should use centrally managed authentication and temporary AWS
 credentials where practical.
@@ -209,7 +220,7 @@ other approved AWS identity mechanisms where supported.
 Multi-factor authentication should protect privileged human access where
 supported by the selected authentication architecture.
 
-9. Privilege Elevation
+## 9. Privilege Elevation
 
 Routine engineering access and administrative access are separate.
 
@@ -224,7 +235,7 @@ Unauthorized role assumption fails.
 Administrative actions require the appropriate elevated role.
 Routine identities cannot perform unauthorized administrative operations.
 Role-assumption activity can be audited.
-10. Workload Identity
+## 10. Workload Identity
 
 AWS workloads should use service-specific or workload-specific IAM roles.
 
@@ -243,7 +254,7 @@ Terraform configuration
 container images
 Kubernetes manifests
 repository configuration
-11. Current Lab Authentication
+## 11. Current Lab Authentication
 
 The current engineering host authenticates to AWS through an EC2 IAM role and
 temporary credentials supplied through the EC2 instance metadata credential
@@ -259,7 +270,7 @@ the current EC2-based engineering workflow.
 Account identifiers and temporary credential values are intentionally excluded
 from repository documentation.
 
-12. Infrastructure as Code Strategy
+## 12. Infrastructure as Code Strategy
 
 IAM resources created in subsequent implementation work should be managed
 through Terraform where practical.
@@ -277,7 +288,7 @@ deployment roles
 Terraform implementation must be validated before deployment and reviewed
 through the repository pull-request workflow.
 
-13. Security Controls
+## 13. Security Controls
 
 The IAM baseline includes the following design controls:
 
@@ -293,7 +304,7 @@ Auditable access paths.
 Infrastructure as Code review.
 Authorization failure testing.
 Policy validation and access analysis.
-14. Design Decisions
+## 14. Design Decisions
 Role-Based Access
 
 IAM roles are preferred over distributing persistent IAM user credentials.
@@ -322,22 +333,68 @@ us-east-1
 IAM is primarily an AWS global service, but workloads consuming IAM roles may
 operate in the project's designated region.
 
-15. Validation Strategy
+## 15. Validation Strategy
 
-Future IAM implementation will validate both successful and denied access.
+The IAM baseline was validated using both successful and denied-access test
+paths. Account identifiers, temporary credentials, and other sensitive values
+are intentionally omitted from repository evidence.
 
-Validation will include:
+### Terraform Validation
 
-AWS identity verification.
-Role trust-policy validation.
-Authorized role-assumption testing.
-Unauthorized role-assumption testing.
-Least-privilege permission testing.
-IAM policy/security analysis.
-Terraform validation.
-Repository security validation.
-Pull-request review evidence.
-16. Cost Considerations
+The lab Terraform configuration was initialized against the S3 backend and
+validated successfully:
+
+```text
+terraform -chdir=terraform/environments/lab validate
+
+Success! The configuration is valid.
+A plan using the authorized bootstrap IAM role completed without infrastructure
+changes:
+
+terraform -chdir=terraform/environments/lab plan   -var="bootstrap_role_arn=<authorized-bootstrap-role-arn>"
+
+No changes. Your infrastructure matches the configuration.
+Trust-Boundary Validation
+
+The Terraform deployment role trust relationship was tested with the authorized
+bootstrap role. Role assumption succeeded, demonstrating that the intended
+trust path functions.
+
+The deployment role was also tested without workload permissions. An AWS API
+operation outside the role's authorized permissions returned an authorization
+failure, demonstrating that successful role assumption does not implicitly
+grant unrestricted AWS access.
+
+Cross-Account Trust Rejection
+
+A syntactically valid IAM role ARN from a different AWS account was supplied as
+the bootstrap role during Terraform planning.
+
+The reusable IAM module rejected the configuration with a resource
+precondition failure:
+
+Error: Resource precondition failed
+
+trusted_role_arn must belong to the expected AWS account.
+
+This prevents an unintended cross-account principal from being introduced into
+the Terraform deployment-role trust policy.
+
+Repository Validation
+
+Repository validation includes:
+
+Terraform formatting and configuration validation.
+Shell script syntax and ShellCheck validation.
+Repository security and configuration validation.
+Pull-request review and automated CI checks.
+Positive and negative IAM authorization testing.
+
+Validation evidence is recorded in the issue and pull-request workflow while
+sensitive account-specific values remain excluded from repository
+documentation.
+
+## 16. Cost Considerations
 
 IAM roles and policies do not normally introduce direct resource usage charges.
 
@@ -345,7 +402,7 @@ Services used later for logging, security analysis, monitoring, credential
 management, or related controls may introduce costs and must be evaluated
 separately.
 
-17. Monitoring and Audit
+## 17. Monitoring and Audit
 
 IAM-related activity should be observable through applicable AWS auditing and
 logging capabilities implemented in later project phases.
@@ -358,7 +415,7 @@ privileged operations
 authorization failures
 IAM policy changes
 trust-policy changes
-18. Troubleshooting
+## 18. Troubleshooting
 
 IAM troubleshooting should distinguish authentication failures from
 authorization failures.
@@ -388,7 +445,7 @@ Capture sanitized evidence
 Useful IAM failures discovered during implementation will be documented under
 docs/troubleshooting/.
 
-19. Rollback
+## 19. Rollback
 
 IAM changes implemented in subsequent work must have a documented rollback
 strategy.
@@ -399,7 +456,7 @@ the environment.
 High-impact IAM changes should be validated before existing known-good access
 paths are removed.
 
-20. Cleanup
+## 20. Cleanup
 
 Temporary test identities, policies, role assignments, and validation resources
 must be removed when they are no longer required.
@@ -407,7 +464,7 @@ must be removed when they are no longer required.
 Production-like IAM architecture documentation should remain in source control
 as engineering evidence.
 
-21. Implementation Traceability
+## 21. Implementation Traceability
 
 This architecture establishes requirements for subsequent IAM implementation
 work.
@@ -428,7 +485,7 @@ Identity architecture and security baseline
 Implementation must remain traceable from requirement to GitHub issue,
 feature branch, code, validation evidence, pull request, and merge.
 
-22. Lessons Learned
+## 22. Lessons Learned
 
 Lessons learned will be updated as IAM controls are implemented and validated
 through subsequent project work.

@@ -22,4 +22,15 @@ resource "aws_iam_role" "terraform_deployment" {
   tags = {
     Purpose = "TerraformDeployment"
   }
+
+  lifecycle {
+    precondition {
+      condition = (
+        split(":", var.trusted_role_arn)[4] ==
+        var.expected_account_id
+      )
+
+      error_message = "trusted_role_arn must belong to the expected AWS account."
+    }
+  }
 }
