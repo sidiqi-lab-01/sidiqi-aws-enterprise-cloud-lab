@@ -22,8 +22,14 @@ fi
 
 echo "Initializing lab Terraform backend..."
 
-terraform -chdir="${LAB_DIR}" init \
-  -reconfigure \
+init_args=(
   -backend-config="bucket=${STATE_BUCKET}"
+)
+
+if [[ -f "${LAB_DIR}/.terraform/terraform.tfstate" ]]; then
+  init_args=(-migrate-state "${init_args[@]}")
+fi
+
+terraform -chdir="${LAB_DIR}" init "${init_args[@]}"
 
 echo "Lab Terraform backend initialized successfully."
