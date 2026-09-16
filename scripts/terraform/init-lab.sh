@@ -26,10 +26,16 @@ init_args=(
   -backend-config="bucket=${STATE_BUCKET}"
 )
 
-if [[ -d "${LAB_DIR}/.terraform" ]]; then
-  init_args=(-migrate-state "${init_args[@]}")
+if init_output="$(
+  terraform -chdir="${LAB_DIR}" init "${init_args[@]}" 2>&1
+)"; then
+  [[ -n "${init_output}" ]] && printf '%s\n' "${init_output}"
+elif [[ "${init_output}" == *"Backend configuration changed"* ]]; then
+  printf '%s\n' "${init_output}" >&2
+  terraform -chdir="${LAB_DIR}" init -migrate-state "${init_args[@]}"
+else
+  printf '%s\n' "${init_output}" >&2
+  exit 1
 fi
-
-terraform -chdir="${LAB_DIR}" init "${init_args[@]}"
 
 echo "Lab Terraform backend initialized successfully."
