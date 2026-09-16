@@ -192,3 +192,13 @@ output "ec2_baseline_monitoring_enabled" {
   description = "Whether detailed monitoring is enabled for the EC2 baseline."
   value       = module.compute.monitoring_enabled
 }
+
+output "application_launch_template_id" {
+  description = "ID of the lab application EC2 Launch Template."
+  value       = module.compute.launch_template_id
+}
+
+output "application_autoscaling_group_name" {
+  description = "Name of the lab application Auto Scaling Group."
+  value       = module.compute.autoscaling_group_name
+}

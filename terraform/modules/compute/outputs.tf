@@ -27,3 +27,13 @@ output "monitoring_enabled" {
   description = "Whether detailed EC2 monitoring is enabled."
   value       = local.ec2_baseline.monitoring
 }
+
+output "launch_template_id" {
+  description = "ID of the application EC2 Launch Template."
+  value       = aws_launch_template.application.id
+}
+
+output "autoscaling_group_name" {
+  description = "Name of the application Auto Scaling Group."
+  value       = aws_autoscaling_group.application.name
+}
