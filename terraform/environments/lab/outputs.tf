@@ -97,3 +97,28 @@ output "database_security_group_id" {
   description = "ID of the lab database security group."
   value       = module.network.database_security_group_id
 }
+
+output "s3_vpc_endpoint_id" {
+  description = "ID of the lab S3 Gateway VPC endpoint."
+  value       = module.network.s3_vpc_endpoint_id
+}
+
+output "ssm_vpc_endpoint_id" {
+  description = "ID of the lab SSM interface VPC endpoint."
+  value       = module.network.ssm_vpc_endpoint_id
+}
+
+output "ssm_messages_vpc_endpoint_id" {
+  description = "ID of the lab SSM Messages interface VPC endpoint."
+  value       = module.network.ssm_messages_vpc_endpoint_id
+}
+
+output "ec2_messages_vpc_endpoint_id" {
+  description = "ID of the lab EC2 Messages interface VPC endpoint."
+  value       = module.network.ec2_messages_vpc_endpoint_id
+}
+
+output "vpc_endpoints_security_group_id" {
+  description = "ID of the lab VPC endpoints security group."
+  value       = module.network.vpc_endpoints_security_group_id
+}
