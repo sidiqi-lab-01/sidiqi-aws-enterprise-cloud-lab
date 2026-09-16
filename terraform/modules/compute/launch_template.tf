@@ -53,6 +53,7 @@ resource "aws_launch_template" "application" {
       Name        = "${var.project_name}-${var.environment}-application"
       Environment = var.environment
       ManagedBy   = "Terraform"
+      Backup      = "DLM"
     }
   }
 
