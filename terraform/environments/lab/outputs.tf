@@ -62,3 +62,23 @@ output "private_subnet_ids" {
   description = "Private subnet IDs."
   value       = module.network.private_subnet_ids
 }
+
+output "internet_gateway_id" {
+  description = "ID of the lab Internet Gateway."
+  value       = module.network.internet_gateway_id
+}
+
+output "nat_gateway_id" {
+  description = "ID of the lab NAT Gateway."
+  value       = module.network.nat_gateway_id
+}
+
+output "public_route_table_id" {
+  description = "ID of the lab public route table."
+  value       = module.network.public_route_table_id
+}
+
+output "private_route_table_id" {
+  description = "ID of the lab private route table."
+  value       = module.network.private_route_table_id
+}
