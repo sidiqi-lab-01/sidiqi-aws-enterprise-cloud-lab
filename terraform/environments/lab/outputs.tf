@@ -17,3 +17,13 @@ output "terraform_deployment_policy_arn" {
   description = "ARN of the Terraform deployment policy."
   value       = module.iam.terraform_deployment_policy_arn
 }
+
+output "administrative_role_name" {
+  description = "Name of the controlled administrative role."
+  value       = module.iam.administrative_role_name
+}
+
+output "administrative_role_arn" {
+  description = "ARN of the controlled administrative role."
+  value       = module.iam.administrative_role_arn
+}
