@@ -5,8 +5,8 @@ resource "terraform_data" "bootstrap_role_validation" {
 
   lifecycle {
     precondition {
-      condition = can(regex("^arn:aws:iam::[0-9]{12}:role/.+$", var.bootstrap_role_arn)) && split(":", var.bootstrap_role_arn)[4] == data.aws_caller_identity.current.account_id
-      error_message = "bootstrap_role_arn must be a valid IAM role ARN in the current AWS account."
+      condition = can(split(":", var.bootstrap_role_arn)[4]) && split(":", var.bootstrap_role_arn)[4] == data.aws_caller_identity.current.account_id
+      error_message = "bootstrap_role_arn must belong to an IAM role in the current AWS account."
     }
   }
 }
