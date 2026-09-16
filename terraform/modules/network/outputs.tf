@@ -56,3 +56,28 @@ output "database_security_group_id" {
   description = "ID of the database security group."
   value       = aws_security_group.database.id
 }
+
+output "s3_vpc_endpoint_id" {
+  description = "ID of the S3 Gateway VPC endpoint."
+  value       = aws_vpc_endpoint.s3.id
+}
+
+output "ssm_vpc_endpoint_id" {
+  description = "ID of the SSM interface VPC endpoint."
+  value       = aws_vpc_endpoint.ssm.id
+}
+
+output "ssm_messages_vpc_endpoint_id" {
+  description = "ID of the SSM Messages interface VPC endpoint."
+  value       = aws_vpc_endpoint.ssm_messages.id
+}
+
+output "ec2_messages_vpc_endpoint_id" {
+  description = "ID of the EC2 Messages interface VPC endpoint."
+  value       = aws_vpc_endpoint.ec2_messages.id
+}
+
+output "vpc_endpoints_security_group_id" {
+  description = "ID of the VPC endpoints security group."
+  value       = aws_security_group.vpc_endpoints.id
+}
