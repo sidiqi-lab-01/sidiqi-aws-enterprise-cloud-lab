@@ -26,7 +26,7 @@ init_args=(
   -backend-config="bucket=${STATE_BUCKET}"
 )
 
-if [[ -f "${LAB_DIR}/.terraform/terraform.tfstate" ]]; then
+if [[ -d "${LAB_DIR}/.terraform" ]]; then
   init_args=(-migrate-state "${init_args[@]}")
 fi
 
