@@ -122,3 +122,13 @@ output "vpc_endpoints_security_group_id" {
   description = "ID of the lab VPC endpoints security group."
   value       = module.network.vpc_endpoints_security_group_id
 }
+
+output "private_hosted_zone_id" {
+  description = "ID of the lab Route 53 private hosted zone."
+  value       = module.network.private_hosted_zone_id
+}
+
+output "private_hosted_zone_name" {
+  description = "Name of the lab Route 53 private hosted zone."
+  value       = module.network.private_hosted_zone_name
+}
