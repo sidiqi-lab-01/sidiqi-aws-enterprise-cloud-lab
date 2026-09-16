@@ -53,3 +53,8 @@ resource "aws_iam_role_policy_attachment" "terraform_deployment" {
   role       = aws_iam_role.terraform_deployment.name
   policy_arn = aws_iam_policy.terraform_deployment.arn
 }
+
+resource "aws_iam_role_policy_attachment" "administrative" {
+  role       = aws_iam_role.administrative.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+}
