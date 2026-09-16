@@ -167,3 +167,28 @@ output "vpc_flow_log_role_arn" {
   description = "ARN of the IAM role used by lab VPC Flow Logs."
   value       = module.network.vpc_flow_log_role_arn
 }
+
+output "ec2_baseline_ami_id" {
+  description = "Amazon Linux 2023 AMI selected for the secure EC2 baseline."
+  value       = module.compute.ami_id
+}
+
+output "ec2_baseline_instance_type" {
+  description = "Default instance type for the secure EC2 baseline."
+  value       = module.compute.instance_type
+}
+
+output "ec2_baseline_metadata_options" {
+  description = "IMDS security settings for the secure EC2 baseline."
+  value       = module.compute.metadata_options
+}
+
+output "ec2_baseline_root_block_device" {
+  description = "Root EBS security configuration for the secure EC2 baseline."
+  value       = module.compute.root_block_device
+}
+
+output "ec2_baseline_monitoring_enabled" {
+  description = "Whether detailed monitoring is enabled for the EC2 baseline."
+  value       = module.compute.monitoring_enabled
+}
