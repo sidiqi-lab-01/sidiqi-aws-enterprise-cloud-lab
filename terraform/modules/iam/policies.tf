@@ -58,3 +58,13 @@ resource "aws_iam_role_policy_attachment" "administrative" {
   role       = aws_iam_role.administrative.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
+
+resource "aws_iam_role_policy_attachment" "ec2_workload_ssm" {
+  role       = aws_iam_role.ec2_workload.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "ec2_workload_cloudwatch" {
+  role       = aws_iam_role.ec2_workload.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}

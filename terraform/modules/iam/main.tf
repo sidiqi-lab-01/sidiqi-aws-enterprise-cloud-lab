@@ -70,3 +70,37 @@ resource "aws_iam_role" "administrative" {
     }
   }
 }
+
+data "aws_iam_policy_document" "ec2_workload_trust" {
+  statement {
+    sid     = "AllowEC2ServiceAssumption"
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ec2_workload" {
+  name        = "${var.project_name}-${var.environment}-ec2-workload-role"
+  description = "Workload identity for EC2 instances in the AWS Enterprise Cloud Lab."
+
+  assume_role_policy   = data.aws_iam_policy_document.ec2_workload_trust.json
+  max_session_duration = 3600
+
+  tags = {
+    Purpose = "EC2WorkloadIdentity"
+  }
+}
+
+resource "aws_iam_instance_profile" "ec2_workload" {
+  name = "${var.project_name}-${var.environment}-ec2-workload-profile"
+  role = aws_iam_role.ec2_workload.name
+
+  tags = {
+    Purpose = "EC2WorkloadIdentity"
+  }
+}

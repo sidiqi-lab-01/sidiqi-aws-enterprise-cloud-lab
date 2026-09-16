@@ -27,3 +27,18 @@ output "administrative_role_arn" {
   description = "ARN of the controlled administrative role."
   value       = aws_iam_role.administrative.arn
 }
+
+output "ec2_workload_role_name" {
+  description = "Name of the EC2 workload IAM role."
+  value       = aws_iam_role.ec2_workload.name
+}
+
+output "ec2_workload_role_arn" {
+  description = "ARN of the EC2 workload IAM role."
+  value       = aws_iam_role.ec2_workload.arn
+}
+
+output "ec2_workload_instance_profile_name" {
+  description = "Name of the EC2 workload instance profile."
+  value       = aws_iam_instance_profile.ec2_workload.name
+}
