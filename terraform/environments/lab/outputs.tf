@@ -202,3 +202,18 @@ output "application_autoscaling_group_name" {
   description = "Name of the lab application Auto Scaling Group."
   value       = module.compute.autoscaling_group_name
 }
+
+output "application_data_bucket_id" {
+  description = "ID of the application data S3 bucket."
+  value       = module.storage.bucket_id
+}
+
+output "application_data_bucket_arn" {
+  description = "ARN of the application data S3 bucket."
+  value       = module.storage.bucket_arn
+}
+
+output "application_data_bucket_domain_name" {
+  description = "Domain name of the application data S3 bucket."
+  value       = module.storage.bucket_domain_name
+}
