@@ -152,3 +152,18 @@ output "application_target_group_arn" {
   description = "ARN of the lab application target group."
   value       = module.network.application_target_group_arn
 }
+
+output "vpc_flow_log_id" {
+  description = "ID of the lab VPC Flow Log."
+  value       = module.network.vpc_flow_log_id
+}
+
+output "vpc_flow_log_group_name" {
+  description = "CloudWatch Log Group receiving lab VPC Flow Logs."
+  value       = module.network.vpc_flow_log_group_name
+}
+
+output "vpc_flow_log_role_arn" {
+  description = "ARN of the IAM role used by lab VPC Flow Logs."
+  value       = module.network.vpc_flow_log_role_arn
+}
