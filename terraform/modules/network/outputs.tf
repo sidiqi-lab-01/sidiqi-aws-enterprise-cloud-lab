@@ -81,3 +81,13 @@ output "vpc_endpoints_security_group_id" {
   description = "ID of the VPC endpoints security group."
   value       = aws_security_group.vpc_endpoints.id
 }
+
+output "private_hosted_zone_id" {
+  description = "ID of the Route 53 private hosted zone."
+  value       = aws_route53_zone.private.zone_id
+}
+
+output "private_hosted_zone_name" {
+  description = "Name of the Route 53 private hosted zone."
+  value       = aws_route53_zone.private.name
+}
