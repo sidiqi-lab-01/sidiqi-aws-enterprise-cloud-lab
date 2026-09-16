@@ -75,6 +75,7 @@ Administrative IAM Role
         |
         v
 Elevated AWS Permissions
+```
 Administrative access requires an intentional privilege-elevation action.
 
 The design minimizes standing administrative privilege and creates a distinct
@@ -83,6 +84,7 @@ operations.
 
 ### Workload Access
 
+```text
 AWS Workload
      |
      v
@@ -96,12 +98,14 @@ Scoped AWS Permissions
      |
      v
 Required AWS Service
+```
 
 AWS workloads use roles and temporary credentials where supported instead of
 embedded long-lived access keys.
 
 ### Automation Access
 
+```text
 Approved Automation
        |
        v
@@ -115,6 +119,7 @@ Scoped Deployment Permissions
        |
        v
 AWS Resources
+```
 
 Infrastructure automation receives permissions through dedicated roles rather
 than sharing human administrative identities.
@@ -135,6 +140,7 @@ These identities must not be treated as interchangeable.
 
 The primary IAM trust boundaries are:
 
+```text
 Human Identity
       |
       | Authentication boundary
@@ -162,6 +168,7 @@ Workload Role
       | Authorization boundary
       v
 AWS Service
+```
 
 Crossing a trust boundary requires an explicitly authorized authentication or
 role-assumption mechanism.
@@ -365,6 +372,7 @@ authorization failures.
 
 The general diagnostic process is:
 
+```text
 Identify caller
       |
       v
@@ -384,6 +392,7 @@ Reproduce permitted or denied action
       |
       v
 Capture sanitized evidence
+```
 
 Useful IAM failures discovered during implementation will be documented under
 docs/troubleshooting/.
@@ -412,6 +421,7 @@ as engineering evidence.
 This architecture establishes requirements for subsequent IAM implementation
 work.
 
+```text
 IAM-001
 Identity architecture and security baseline
         |
@@ -424,6 +434,7 @@ Identity architecture and security baseline
         +--> IAM policy validation
         |
         +--> Access failure testing
+```
 
 Implementation must remain traceable from requirement to GitHub issue,
 feature branch, code, validation evidence, pull request, and merge.
