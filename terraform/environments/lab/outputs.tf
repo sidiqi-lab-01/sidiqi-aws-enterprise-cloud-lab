@@ -237,3 +237,33 @@ output "efs_mount_target_ids" {
   description = "Map of EFS mount target IDs by private subnet."
   value       = module.storage.efs_mount_target_ids
 }
+
+output "db_instance_id" {
+  description = "RDS PostgreSQL DB instance identifier."
+  value       = module.database.db_instance_id
+}
+
+output "db_instance_arn" {
+  description = "ARN of the RDS PostgreSQL DB instance."
+  value       = module.database.db_instance_arn
+}
+
+output "db_endpoint" {
+  description = "RDS PostgreSQL connection endpoint."
+  value       = module.database.db_endpoint
+}
+
+output "db_port" {
+  description = "RDS PostgreSQL connection port."
+  value       = module.database.db_port
+}
+
+output "db_subnet_group_name" {
+  description = "Name of the RDS DB subnet group."
+  value       = module.database.db_subnet_group_name
+}
+
+output "db_master_user_secret_arn" {
+  description = "ARN of the AWS-managed RDS master-user secret."
+  value       = module.database.master_user_secret_arn
+}

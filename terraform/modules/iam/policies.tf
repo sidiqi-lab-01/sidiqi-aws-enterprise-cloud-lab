@@ -73,6 +73,45 @@ data "aws_iam_policy_document" "terraform_deployment_permissions" {
       values   = ["dlm.amazonaws.com"]
     }
   }
+
+  statement {
+    sid    = "ManageRDS"
+    effect = "Allow"
+
+    actions = [
+      "rds:AddTagsToResource",
+      "rds:CreateDBInstance",
+      "rds:CreateDBSubnetGroup",
+      "rds:DeleteDBInstance",
+      "rds:DeleteDBSubnetGroup",
+      "rds:DescribeDBInstances",
+      "rds:DescribeDBSubnetGroups",
+      "rds:DescribeDBEngineVersions",
+      "rds:DescribeOrderableDBInstanceOptions",
+      "rds:ListTagsForResource",
+      "rds:ModifyDBInstance",
+      "rds:ModifyDBSubnetGroup",
+      "rds:RemoveTagsFromResource",
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "ManageRDSMasterUserSecret"
+    effect = "Allow"
+
+    actions = [
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:ListSecretVersionIds",
+      "secretsmanager:ListSecrets",
+      "secretsmanager:TagResource",
+      "secretsmanager:UntagResource",
+    ]
+
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_policy" "terraform_deployment" {
