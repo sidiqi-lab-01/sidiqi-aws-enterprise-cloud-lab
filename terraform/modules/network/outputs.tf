@@ -91,3 +91,23 @@ output "private_hosted_zone_name" {
   description = "Name of the Route 53 private hosted zone."
   value       = aws_route53_zone.private.name
 }
+
+output "application_load_balancer_arn" {
+  description = "ARN of the application load balancer."
+  value       = aws_lb.application.arn
+}
+
+output "application_load_balancer_dns_name" {
+  description = "DNS name of the application load balancer."
+  value       = aws_lb.application.dns_name
+}
+
+output "application_load_balancer_zone_id" {
+  description = "Canonical hosted zone ID of the application load balancer."
+  value       = aws_lb.application.zone_id
+}
+
+output "application_target_group_arn" {
+  description = "ARN of the application target group."
+  value       = aws_lb_target_group.application.arn
+}
