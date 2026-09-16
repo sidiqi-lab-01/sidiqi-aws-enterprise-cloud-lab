@@ -82,3 +82,18 @@ output "private_route_table_id" {
   description = "ID of the lab private route table."
   value       = module.network.private_route_table_id
 }
+
+output "alb_security_group_id" {
+  description = "ID of the lab ALB security group."
+  value       = module.network.alb_security_group_id
+}
+
+output "application_security_group_id" {
+  description = "ID of the lab application security group."
+  value       = module.network.application_security_group_id
+}
+
+output "database_security_group_id" {
+  description = "ID of the lab database security group."
+  value       = module.network.database_security_group_id
+}
