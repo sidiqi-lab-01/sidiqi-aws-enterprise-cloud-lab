@@ -13,7 +13,7 @@ Detailed command explanations are maintained under `docs/commands/`.
 | Repository Bootstrap | `docs/commands/01-repository-bootstrap.md` |
 | Git and GitHub | Planned |
 | AWS CLI | Planned |
-| Terraform | Planned |
+| Terraform | `docs/commands/02-terraform-lab-workflow.md` |
 | Networking | Planned |
 | Compute | Planned |
 | Storage | Planned |
