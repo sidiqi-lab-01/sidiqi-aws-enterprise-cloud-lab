@@ -111,3 +111,18 @@ output "application_target_group_arn" {
   description = "ARN of the application target group."
   value       = aws_lb_target_group.application.arn
 }
+
+output "vpc_flow_log_id" {
+  description = "ID of the VPC Flow Log."
+  value       = aws_flow_log.vpc.id
+}
+
+output "vpc_flow_log_group_name" {
+  description = "CloudWatch Log Group receiving VPC Flow Logs."
+  value       = aws_cloudwatch_log_group.vpc_flow_logs.name
+}
+
+output "vpc_flow_log_role_arn" {
+  description = "ARN of the IAM role used by VPC Flow Logs."
+  value       = aws_iam_role.vpc_flow_logs.arn
+}
