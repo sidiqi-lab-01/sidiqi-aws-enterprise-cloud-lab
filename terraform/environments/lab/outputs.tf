@@ -132,3 +132,23 @@ output "private_hosted_zone_name" {
   description = "Name of the lab Route 53 private hosted zone."
   value       = module.network.private_hosted_zone_name
 }
+
+output "application_load_balancer_arn" {
+  description = "ARN of the lab application load balancer."
+  value       = module.network.application_load_balancer_arn
+}
+
+output "application_load_balancer_dns_name" {
+  description = "DNS name of the lab application load balancer."
+  value       = module.network.application_load_balancer_dns_name
+}
+
+output "application_load_balancer_zone_id" {
+  description = "Canonical hosted zone ID of the lab application load balancer."
+  value       = module.network.application_load_balancer_zone_id
+}
+
+output "application_target_group_arn" {
+  description = "ARN of the lab application target group."
+  value       = module.network.application_target_group_arn
+}
