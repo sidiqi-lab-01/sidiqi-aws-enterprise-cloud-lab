@@ -37,6 +37,42 @@ data "aws_iam_policy_document" "terraform_deployment_permissions" {
       "arn:aws:iam::${var.expected_account_id}:role/${var.project_name}-${var.environment}-*",
     ]
   }
+
+  statement {
+    sid    = "ManageEBSLifecyclePolicies"
+    effect = "Allow"
+
+    actions = [
+      "dlm:CreateLifecyclePolicy",
+      "dlm:GetLifecyclePolicy",
+      "dlm:UpdateLifecyclePolicy",
+      "dlm:DeleteLifecyclePolicy",
+      "dlm:ListTagsForResource",
+      "dlm:TagResource",
+      "dlm:UntagResource",
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "PassDLMServiceRole"
+    effect = "Allow"
+
+    actions = [
+      "iam:PassRole",
+    ]
+
+    resources = [
+      "arn:aws:iam::${var.expected_account_id}:role/${var.project_name}-${var.environment}-dlm-*",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "iam:PassedToService"
+      values   = ["dlm.amazonaws.com"]
+    }
+  }
 }
 
 resource "aws_iam_policy" "terraform_deployment" {
