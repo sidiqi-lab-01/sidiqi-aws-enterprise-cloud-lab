@@ -23,3 +23,23 @@ variable "noncurrent_version_expiration_days" {
     error_message = "Noncurrent version expiration must be greater than zero days."
   }
 }
+
+variable "vpc_id" {
+  description = "ID of the VPC hosting the EFS mount targets."
+  type        = string
+}
+
+variable "private_subnet_ids" {
+  description = "Map of private subnet IDs used for EFS mount targets."
+  type        = map(string)
+
+  validation {
+    condition     = length(var.private_subnet_ids) >= 2
+    error_message = "At least two private subnets are required for highly available EFS mount targets."
+  }
+}
+
+variable "application_security_group_id" {
+  description = "Security group ID of workloads permitted to access EFS."
+  type        = string
+}

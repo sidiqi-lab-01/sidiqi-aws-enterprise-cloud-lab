@@ -217,3 +217,23 @@ output "application_data_bucket_domain_name" {
   description = "Domain name of the application data S3 bucket."
   value       = module.storage.bucket_domain_name
 }
+
+output "efs_file_system_id" {
+  description = "ID of the shared EFS file system."
+  value       = module.storage.efs_file_system_id
+}
+
+output "efs_dns_name" {
+  description = "DNS name of the shared EFS file system."
+  value       = module.storage.efs_dns_name
+}
+
+output "efs_security_group_id" {
+  description = "ID of the EFS security group."
+  value       = module.storage.efs_security_group_id
+}
+
+output "efs_mount_target_ids" {
+  description = "Map of EFS mount target IDs by private subnet."
+  value       = module.storage.efs_mount_target_ids
+}
