@@ -277,3 +277,18 @@ output "dynamodb_table_arn" {
   description = "ARN of the application-state DynamoDB table."
   value       = module.database.dynamodb_table_arn
 }
+
+output "ecr_repository_name" {
+  description = "Name of the application ECR repository."
+  value       = module.ecr.repository_name
+}
+
+output "ecr_repository_arn" {
+  description = "ARN of the application ECR repository."
+  value       = module.ecr.repository_arn
+}
+
+output "ecr_repository_url" {
+  description = "URL of the application ECR repository."
+  value       = module.ecr.repository_url
+}

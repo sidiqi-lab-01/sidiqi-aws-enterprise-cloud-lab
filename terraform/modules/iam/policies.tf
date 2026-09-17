@@ -132,7 +132,34 @@ data "aws_iam_policy_document" "terraform_deployment_permissions" {
       "arn:aws:dynamodb:*:${var.expected_account_id}:table/${var.project_name}-${var.environment}-*",
     ]
   }
+  statement {
+    sid    = "ManageECRRepositories"
+    effect = "Allow"
 
+    actions = [
+      "ecr:CreateRepository",
+      "ecr:DeleteLifecyclePolicy",
+      "ecr:DeleteRepository",
+      "ecr:DescribeImages",
+      "ecr:DescribeRepositories",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:GetRepositoryPolicy",
+      "ecr:ListImages",
+      "ecr:ListTagsForResource",
+      "ecr:PutImageScanningConfiguration",
+      "ecr:PutImageTagMutability",
+      "ecr:PutLifecyclePolicy",
+      "ecr:SetRepositoryPolicy",
+      "ecr:StartLifecyclePolicyPreview",
+      "ecr:TagResource",
+      "ecr:UntagResource"
+    ]
+
+    resources = [
+      "arn:aws:ecr:*:${var.expected_account_id}:repository/${var.project_name}-${var.environment}-*",
+    ]
+  }
   statement {
     sid    = "ManageProjectIAMPolicies"
     effect = "Allow"
