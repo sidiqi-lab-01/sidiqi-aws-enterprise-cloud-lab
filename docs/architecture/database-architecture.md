@@ -88,7 +88,7 @@ The database subnet architecture spans multiple Availability Zones and supports 
 
 The DB-001 lab baseline uses a Single-AZ RDS instance for cost control while validating the managed database architecture.
 
-DB-002 owns implementation and validation of the highly available RDS configuration, including Multi-AZ capability where applicable.
+DB-002 implements and validates the highly available RDS configuration using a Multi-AZ deployment across the private database subnets.
 
 Backup and Recovery
 
@@ -116,7 +116,7 @@ database events
 
 Amazon RDS metrics and Amazon CloudWatch provide the baseline monitoring integration.
 
-Detailed monitoring implementation belongs to the RDS implementation work in DB-002.
+DB-002 implements Enhanced Monitoring at a 60-second interval using a dedicated RDS monitoring IAM role.
 
 Scaling
 
@@ -163,7 +163,7 @@ the RDS master credential is managed by AWS Secrets Manager
 automated backups are enabled
 storage autoscaling is configured
 
-The current Single-AZ deployment is a DB-001 architecture baseline and does not satisfy the final high-availability implementation requirements assigned to DB-002.
+The original Single-AZ deployment was the DB-001 architecture baseline. DB-002 subsequently converted the RDS deployment to Multi-AZ and validated the high-availability configuration.
 
 Implementation Traceability
 Requirement	Implementation
@@ -189,3 +189,86 @@ Use AWS Secrets Manager for managed credential storage.
 Maintain multi-AZ-capable subnet architecture.
 Separate the cost-controlled DB-001 baseline from the highly available DB-002 implementation.
 Validate backup and failure recovery separately through DB-004.
+
+## DB-002 Highly Available RDS Implementation
+
+Issue #32 implements and validates the highly available relational database architecture defined by DB-001.
+
+### High Availability
+
+The lab RDS PostgreSQL deployment is configured as Multi-AZ.
+
+The current validated deployment uses:
+
+- PostgreSQL 18.3
+- db.t4g.micro instance class
+- gp3 storage
+- encrypted storage
+- private DB subnet placement
+- primary database instance in us-east-1a
+- synchronous standby in us-east-1b
+- no public database accessibility
+
+Terraform manages the Multi-AZ configuration and applies the lab availability change immediately rather than waiting for the configured maintenance window.
+
+### Network Security
+
+The RDS instance remains accessible only through the database security group.
+
+Application workloads in both private application subnets successfully reached the RDS endpoint over TCP port 5432 after the Multi-AZ conversion.
+
+The database remains non-publicly accessible.
+
+### Credential Management
+
+The RDS master credential continues to use AWS-managed Secrets Manager credential management.
+
+No database password is stored in Terraform source code, Terraform variables, repository configuration, or documentation.
+
+Application workloads should use a dedicated application database identity rather than the RDS master identity.
+
+### Encryption and Secure Parameters
+
+RDS storage encryption is enabled.
+
+The active PostgreSQL 18 default parameter group reports:
+
+- `rds.force_ssl = 1`
+- source: `system`
+- apply type: `dynamic`
+
+This provides the current database transport-security baseline without duplicating the system setting in a custom parameter group.
+
+### Backup
+
+Automated backups remain enabled with a one-day retention period.
+
+The lab originally attempted a seven-day retention period, but the current AWS account plan rejected that value. The one-day value therefore represents the validated lab constraint rather than the recommended production recovery policy.
+
+Backup restoration and representative recovery testing remain assigned to DB-004.
+
+### Monitoring
+
+RDS Enhanced Monitoring is enabled at a 60-second interval.
+
+A dedicated RDS monitoring IAM role is managed through Terraform and has the AWS-managed `AmazonRDSEnhancedMonitoringRole` policy attached.
+
+Database Insights operates in standard mode.
+
+### Validation Evidence
+
+DB-002 runtime validation confirmed:
+
+- RDS status `available`
+- Multi-AZ enabled
+- primary Availability Zone `us-east-1a`
+- secondary Availability Zone `us-east-1b`
+- encrypted storage enabled
+- public accessibility disabled
+- Enhanced Monitoring interval of 60 seconds
+- dedicated monitoring IAM role configured
+- `rds.force_ssl = 1`
+- successful TCP/5432 connectivity from application instances in both private application subnets
+- Terraform convergence with no infrastructure drift
+
+The deployment is reproducible through Terraform and satisfies the DB-002 high-availability, encryption, private-placement, controlled-connectivity, credential-management, backup-configuration, monitoring, and secure-parameter requirements.
