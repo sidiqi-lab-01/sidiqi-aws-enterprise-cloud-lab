@@ -112,6 +112,47 @@ data "aws_iam_policy_document" "terraform_deployment_permissions" {
 
     resources = ["*"]
   }
+  statement {
+    sid    = "ManageDynamoDB"
+    effect = "Allow"
+
+    actions = [
+      "dynamodb:CreateTable",
+      "dynamodb:DeleteTable",
+      "dynamodb:DescribeTable",
+      "dynamodb:DescribeContinuousBackups",
+      "dynamodb:ListTagsOfResource",
+      "dynamodb:TagResource",
+      "dynamodb:UntagResource",
+      "dynamodb:UpdateContinuousBackups",
+      "dynamodb:UpdateTable",
+    ]
+
+    resources = [
+      "arn:aws:dynamodb:*:${var.expected_account_id}:table/${var.project_name}-${var.environment}-*",
+    ]
+  }
+
+  statement {
+    sid    = "ManageProjectIAMPolicies"
+    effect = "Allow"
+
+    actions = [
+      "iam:CreatePolicy",
+      "iam:CreatePolicyVersion",
+      "iam:DeletePolicy",
+      "iam:DeletePolicyVersion",
+      "iam:GetPolicy",
+      "iam:GetPolicyVersion",
+      "iam:ListPolicyVersions",
+      "iam:TagPolicy",
+      "iam:UntagPolicy",
+    ]
+
+    resources = [
+      "arn:aws:iam::${var.expected_account_id}:policy/${var.project_name}-${var.environment}-*",
+    ]
+  }
 }
 
 resource "aws_iam_policy" "terraform_deployment" {

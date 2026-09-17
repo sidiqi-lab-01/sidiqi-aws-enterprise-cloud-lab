@@ -272,3 +272,163 @@ DB-002 runtime validation confirmed:
 - Terraform convergence with no infrastructure drift
 
 The deployment is reproducible through Terraform and satisfies the DB-002 high-availability, encryption, private-placement, controlled-connectivity, credential-management, backup-configuration, monitoring, and secure-parameter requirements.
+
+## DB-003 DynamoDB Workload and Security Controls
+
+Issue #33 implements and validates the representative DynamoDB workload defined by the DB-001 managed data-services architecture.
+
+### Workload and Access Pattern
+
+The lab uses an application-state DynamoDB table for representative NoSQL workload validation.
+
+The table uses a composite primary key:
+
+- partition key: `entity_id`
+- sort key: `record_type`
+
+The validated representative item uses:
+
+- `entity_id = APP#validation`
+- `record_type = STATE#current`
+
+This design supports direct item retrieval by composite key and query operations for records associated with a specific entity.
+
+Representative DB-003 operations include:
+
+- `PutItem`
+- `GetItem`
+- `Query`
+- `UpdateItem`
+- `DeleteItem`
+
+### Capacity and Scaling
+
+The DynamoDB table uses `PAY_PER_REQUEST` billing mode.
+
+On-demand capacity was selected for the lab because the representative workload is intermittent and does not require fixed provisioned read or write capacity.
+
+This avoids unnecessary capacity provisioning while allowing DynamoDB to manage request capacity for the workload.
+
+Production capacity-mode selection should be based on workload predictability, throughput requirements, cost characteristics, and operational requirements.
+
+### Encryption
+
+DynamoDB server-side encryption is enabled.
+
+AWS validation reports the table encryption status as `ENABLED` with KMS-backed encryption.
+
+No application secrets or database credentials are required for DynamoDB access. Authorization is controlled through IAM.
+
+### Recovery
+
+Point-in-time recovery is enabled for the DynamoDB table.
+
+AWS validation confirms:
+
+- continuous backups enabled
+- point-in-time recovery enabled
+
+This provides recovery capability for accidental writes or deletes within the supported DynamoDB recovery window.
+
+Representative restore testing is handled separately by the database recovery workstream.
+
+### Identity and Least-Privilege Access
+
+The EC2 application workload role receives a dedicated DynamoDB IAM policy.
+
+The workload policy permits only the application operations required by the demonstrated access pattern:
+
+- `dynamodb:GetItem`
+- `dynamodb:PutItem`
+- `dynamodb:UpdateItem`
+- `dynamodb:DeleteItem`
+- `dynamodb:Query`
+- `dynamodb:DescribeTable`
+
+The policy is scoped to the application-state table rather than all DynamoDB resources.
+
+Administrative DynamoDB permissions such as `dynamodb:UpdateTable`, `dynamodb:CreateTable`, and `dynamodb:DeleteTable` are not granted to the application workload role.
+
+Terraform deployment permissions are separate from runtime workload permissions. The Terraform deployment policy contains the infrastructure-management permissions required to create, update, tag, recover, and remove project-scoped DynamoDB tables.
+
+### Security Boundary
+
+DynamoDB authorization is enforced through AWS IAM rather than the RDS-style VPC security-group boundary.
+
+The application workload uses its EC2 IAM role credentials to access the authorized DynamoDB table.
+
+Infrastructure-management permissions remain separate from runtime data-plane permissions.
+
+This separation prevents the application workload from administering the DynamoDB table while allowing its required application data operations.
+
+### Runtime Validation
+
+DB-003 was validated from an application EC2 instance managed by the application Auto Scaling Group and accessed through AWS Systems Manager.
+
+AWS STS confirmed that the runtime commands executed under the EC2 workload role.
+
+The following authorized operations succeeded:
+
+- `PutItem` created the representative application-state item.
+- `GetItem` returned the expected item.
+- `Query` returned the item using the `entity_id` partition-key access pattern.
+- `UpdateItem` changed the item status from `healthy` to `validated`.
+- `DeleteItem` removed the validation item and returned the previous values.
+
+The complete authorized validation command completed successfully.
+
+### Negative Authorization Validation
+
+A separate test from the same EC2 workload identity attempted the administrative `dynamodb:UpdateTable` action.
+
+AWS rejected the operation with `AccessDeniedException` because no identity-based policy granted the workload role `dynamodb:UpdateTable`.
+
+This failure is the expected security result and validates the separation between application data-plane permissions and infrastructure-administration permissions.
+
+After the denied operation, validation confirmed that the table remained:
+
+- `ACTIVE`
+- `PAY_PER_REQUEST`
+- server-side encryption enabled
+- point-in-time recovery enabled
+
+### Troubleshooting Evidence
+
+The first runtime validation attempt successfully completed `PutItem` and `GetItem` but stopped during `Query`.
+
+The failure was caused by nested shell and JSON quoting in the SSM Run Command parameters, not by DynamoDB authorization.
+
+The validation procedure was corrected by writing the DynamoDB JSON request parameters to temporary files on the EC2 instance and passing them to the AWS CLI using `file://` references.
+
+The corrected test successfully completed the full authorized `PutItem`, `GetItem`, `Query`, `UpdateItem`, and `DeleteItem` sequence.
+
+This demonstrates the distinction between command-construction failures and IAM authorization failures during operational troubleshooting.
+
+### DB-003 Implementation Traceability
+
+| Requirement | Implementation |
+| --- | --- |
+| DynamoDB table | `terraform/modules/database/dynamodb.tf` |
+| Composite primary key | `entity_id` and `record_type` |
+| Capacity mode | `PAY_PER_REQUEST` |
+| Server-side encryption | `terraform/modules/database/dynamodb.tf` |
+| Point-in-time recovery | `terraform/modules/database/dynamodb.tf` |
+| Workload IAM policy | `terraform/environments/lab/dynamodb_access.tf` |
+| Workload IAM role | `terraform/modules/iam/` |
+| Terraform deployment permissions | `terraform/modules/iam/policies.tf` |
+| DynamoDB outputs | `terraform/modules/database/outputs.tf` |
+| Environment outputs | `terraform/environments/lab/outputs.tf` |
+| Authorized runtime validation | AWS Systems Manager from application EC2 workload |
+| Unauthorized operation validation | Denied `dynamodb:UpdateTable` from application workload role |
+
+### DB-003 Design Decisions
+
+- Use DynamoDB for the representative key-value NoSQL workload.
+- Use a composite partition-and-sort-key model to demonstrate defined access patterns.
+- Use on-demand capacity for the intermittent lab workload.
+- Enable server-side encryption.
+- Enable point-in-time recovery.
+- Separate Terraform infrastructure-management permissions from application runtime permissions.
+- Scope application IAM access to the application-state table.
+- Do not grant table-administration permissions to the application workload role.
+- Validate both successful authorized operations and denied unauthorized operations.

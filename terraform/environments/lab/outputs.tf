@@ -267,3 +267,13 @@ output "db_master_user_secret_arn" {
   description = "ARN of the AWS-managed RDS master-user secret."
   value       = module.database.master_user_secret_arn
 }
+
+output "dynamodb_table_name" {
+  description = "Name of the application-state DynamoDB table."
+  value       = module.database.dynamodb_table_name
+}
+
+output "dynamodb_table_arn" {
+  description = "ARN of the application-state DynamoDB table."
+  value       = module.database.dynamodb_table_arn
+}

@@ -27,3 +27,13 @@ output "master_user_secret_arn" {
   description = "ARN of the AWS-managed Secrets Manager master credential."
   value       = aws_db_instance.postgresql.master_user_secret[0].secret_arn
 }
+
+output "dynamodb_table_name" {
+  description = "Name of the application-state DynamoDB table."
+  value       = aws_dynamodb_table.application_state.name
+}
+
+output "dynamodb_table_arn" {
+  description = "ARN of the application-state DynamoDB table."
+  value       = aws_dynamodb_table.application_state.arn
+}
