@@ -36,11 +36,17 @@ resource "aws_db_instance" "postgresql" {
   maintenance_window      = "sun:04:00-sun:05:00"
 
   auto_minor_version_upgrade = true
+  apply_immediately          = var.apply_immediately
 
-  multi_az = false
+  multi_az = var.multi_az
+
+  monitoring_interval = var.monitoring_interval
+  monitoring_role_arn = var.monitoring_interval > 0 ? aws_iam_role.rds_monitoring.arn : null
 
   deletion_protection = false
   skip_final_snapshot = true
+
+  depends_on = [aws_iam_role_policy_attachment.rds_monitoring]
 
   copy_tags_to_snapshot = true
 

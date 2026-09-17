@@ -11,4 +11,8 @@ module "database" {
   allocated_storage       = 20
   max_allocated_storage   = 100
   backup_retention_period = 1
+
+  multi_az            = true
+  monitoring_interval = 60
+  apply_immediately   = true
 }
