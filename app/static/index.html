@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AWS Enterprise Cloud Lab</title>
+
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="container">
+    <div class="brand">
+      <span>AWS</span> Enterprise Cloud Lab
+    </div>
+
+    <div class="links">
+      <a href="#architecture">Architecture</a>
+      <a href="#platform">Platform</a>
+      <a href="#devsecops">DevSecOps</a>
+      <a href="#status">Status</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+
+    <div class="badge">
+      Sidiqi Enterprise Infrastructure Engineering Lab
+    </div>
+
+    <h1>
+      AWS infrastructure engineered with
+      <span>Infrastructure as Code.</span>
+    </h1>
+
+    <p>
+      A hands-on enterprise cloud engineering platform demonstrating
+      secure AWS architecture, infrastructure automation,
+      containerization, CI/CD, operational controls and
+      DevSecOps engineering practices.
+    </p>
+
+    <div class="technology">
+      <span>AWS</span>
+      <span>Terraform</span>
+      <span>Docker</span>
+      <span>GitHub Actions</span>
+      <span>Linux</span>
+      <span>Python</span>
+      <span>Amazon ECR</span>
+      <span>GHCR</span>
+    </div>
+
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="container">
+
+    <h2 class="section-title">Cloud Architecture</h2>
+
+    <p class="section-description">
+      Multi-layer AWS infrastructure provisioned and managed through Terraform.
+    </p>
+
+    <div class="architecture">
+<pre>
+                              Route 53
+                                  │
+                                  ▼
+                     Application Load Balancer
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │                           │
+                 Public                    Private
+                 Subnets                   Subnets
+                    │                           │
+              NAT / Routing                Compute
+                                                │
+                                      Launch Templates
+                                                │
+                                         Auto Scaling
+                                                │
+                                              EC2
+                                                │
+                                      Application Workload
+                                                │
+                         ┌──────────────────────┼─────────────────────┐
+                         │                      │                     │
+                         ▼                      ▼                     ▼
+                        RDS                 DynamoDB                S3 / EFS
+
+
+ Security & Operations
+ ─────────────────────────────────────────────────────────────────────────────
+ IAM  •  Security Groups  •  NACLs  •  Encryption  •  VPC Endpoints
+ Systems Manager  •  VPC Flow Logs  •  Terraform  •  GitHub Actions
+</pre>
+    </div>
+
+  </div>
+</section>
+
+<section id="platform">
+  <div class="container">
+
+    <h2 class="section-title">Platform Capabilities</h2>
+
+    <p class="section-description">
+      Infrastructure capabilities implemented throughout the enterprise lab.
+    </p>
+
+    <div class="grid">
+
+      <article class="card">
+        <div class="completed">Implemented</div>
+        <h3>Networking</h3>
+        <ul>
+          <li>Multi-AZ VPC</li>
+          <li>Public and private subnets</li>
+          <li>Internet Gateway</li>
+          <li>NAT architecture</li>
+          <li>Route tables</li>
+          <li>Route 53</li>
+          <li>Application Load Balancer</li>
+          <li>VPC endpoints</li>
+          <li>VPC Flow Logs</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="completed">Implemented</div>
+        <h3>Identity & Security</h3>
+        <ul>
+          <li>IAM role architecture</li>
+          <li>Least-privilege policies</li>
+          <li>Security Groups</li>
+          <li>Network ACLs</li>
+          <li>Encryption controls</li>
+          <li>Access validation</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="completed">Implemented</div>
+        <h3>Compute & Operations</h3>
+        <ul>
+          <li>Amazon EC2</li>
+          <li>Launch Templates</li>
+          <li>Auto Scaling</li>
+          <li>AWS Systems Manager</li>
+          <li>Secure compute baseline</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="completed">Implemented</div>
+        <h3>Storage</h3>
+        <ul>
+          <li>Amazon S3</li>
+          <li>Encrypted EBS</li>
+          <li>EBS lifecycle controls</li>
+          <li>Amazon EFS</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="completed">Implemented</div>
+        <h3>Databases</h3>
+        <ul>
+          <li>Amazon RDS</li>
+          <li>Multi-AZ database design</li>
+          <li>Encryption controls</li>
+          <li>Amazon DynamoDB</li>
+          <li>Database monitoring</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="completed">In Progress</div>
+        <h3>Containers</h3>
+        <ul>
+          <li>Docker workloads</li>
+          <li>Amazon ECR</li>
+          <li>GitHub Container Registry</li>
+          <li>Versioned container images</li>
+          <li>Non-root execution</li>
+        </ul>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<section id="devsecops">
+  <div class="container">
+
+    <h2 class="section-title">DevSecOps Delivery Pipeline</h2>
+
+    <p class="section-description">
+      Traceable engineering workflow from requirement through deployment.
+    </p>
+
+    <div class="pipeline">
+
+      <div class="pipeline-step">Requirement</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">GitHub Issue</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">Feature Branch</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">Pull Request</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">CI Validation</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">Container</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">ECR / GHCR</div>
+      <div class="arrow">→</div>
+
+      <div class="pipeline-step">Deployment</div>
+
+    </div>
+
+  </div>
+</section>
+
+<section id="status">
+  <div class="container">
+
+    <h2 class="section-title">Platform Status</h2>
+
+    <p class="section-description">
+      Runtime information retrieved directly from the application API.
+    </p>
+
+    <div class="status-panel">
+
+      <div class="health">
+        <div class="health-dot"></div>
+        <span id="health">Checking application...</span>
+      </div>
+
+      <div id="version" class="version">
+        Loading version...
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    AWS Enterprise Cloud Lab • Infrastructure as Code • Cloud Engineering • DevSecOps
+  </div>
+</footer>
+
+<script src="/static/app.js"></script>
+
+</body>
+</html>

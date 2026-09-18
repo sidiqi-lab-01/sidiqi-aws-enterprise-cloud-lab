@@ -48,29 +48,17 @@ if ! git diff --cached --check; then
     fail "Staged whitespace validation failed."
 fi
 
-log "Checking for sensitive file types."
+log "Checking tracked files for sensitive file types."
 
 sensitive_files="$(
-    find . -type f \
-        \( -name "*.pem" \
-        -o -name "*.key" \
-        -o -name "*.p12" \
-        -o -name "*.pfx" \
-        -o -name "*.tfstate" \
-        -o -name "*.tfstate.*" \
-        -o -name "*.tfvars" \
-        -o -name "*.tfvars.json" \
-        -o -name ".env" \
-        -o -name "credentials" \
-        -o -name "kubeconfig" \
-        -o -name "*.kubeconfig" \) \
-        -not -path "./.git/*" \
-        -print
+    git ls-files |
+        grep -E '(^|/)([^/]+\.pem|[^/]+\.key|[^/]+\.p12|[^/]+\.pfx|[^/]+\.tfstate(\..*)?|[^/]+\.tfvars(\.json)?|\.env|credentials|kubeconfig|[^/]+\.kubeconfig)$' ||
+        true
 )"
 
 if [[ -n "$sensitive_files" ]]; then
     printf '%s\n' "$sensitive_files" >&2
-    fail "Potentially sensitive files were found."
+    fail "Potentially sensitive tracked files were found."
 fi
 
 log "Checking required repository files."

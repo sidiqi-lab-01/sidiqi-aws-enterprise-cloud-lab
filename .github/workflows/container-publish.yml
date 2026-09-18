@@ -1,0 +1,169 @@
+name: Container Build and Publish
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "app/**"
+      - ".github/workflows/container-publish.yml"
+
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+    paths:
+      - "app/**"
+      - ".github/workflows/container-publish.yml"
+
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  validate:
+    name: Build and Validate Container
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build container image
+        run: |
+          docker build \
+            --tag lab-app:ci \
+            app/
+
+      - name: Start validation container
+        run: |
+          docker run -d \
+            --name lab-app-validation \
+            --publish 127.0.0.1:8080:8080 \
+            --env APP_VERSION=ci-${GITHUB_SHA::7} \
+            lab-app:ci
+
+      - name: Wait for application health
+        run: |
+          for attempt in {1..30}; do
+            if curl --fail --silent \
+              http://127.0.0.1:8080/health >/dev/null; then
+              echo "Application is healthy."
+              exit 0
+            fi
+
+            echo "Waiting for application health (${attempt}/30)..."
+            sleep 2
+          done
+
+          echo "Application failed to become healthy."
+          docker logs lab-app-validation
+          exit 1
+
+      - name: Validate health endpoint
+        run: |
+          response="$(curl --fail --silent \
+            http://127.0.0.1:8080/health)"
+
+          echo "$response"
+
+          echo "$response" |
+            grep -q '"status": "healthy"'
+
+      - name: Validate version endpoint
+        run: |
+          response="$(curl --fail --silent \
+            http://127.0.0.1:8080/api/version)"
+
+          echo "$response"
+
+          echo "$response" |
+            grep -q "\"version\": \"ci-${GITHUB_SHA::7}\""
+
+      - name: Validate non-root execution
+        run: |
+          uid="$(docker exec lab-app-validation id -u)"
+
+          echo "Container UID: $uid"
+
+          test "$uid" != "0"
+          test "$uid" = "10001"
+
+      - name: Validate Docker healthcheck
+        run: |
+          for attempt in {1..15}; do
+            health="$(
+              docker inspect \
+                --format='{{.State.Health.Status}}' \
+                lab-app-validation
+            )"
+
+            echo "Docker health status: $health"
+
+            if [[ "$health" == "healthy" ]]; then
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          docker inspect lab-app-validation
+          docker logs lab-app-validation
+          exit 1
+
+      - name: Show container logs
+        if: always()
+        run: docker logs lab-app-validation || true
+
+      - name: Remove validation container
+        if: always()
+        run: docker rm -f lab-app-validation || true
+
+  publish:
+    name: Publish Container to GHCR
+    runs-on: ubuntu-latest
+    needs:
+      - validate
+
+    if: github.event_name != 'pull_request'
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate container metadata
+        id: metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=sha-
+            type=ref,event=tag
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and publish container
+        uses: docker/build-push-action@v6
+        with:
+          context: ./app
+          push: true
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          build-args: |
+            APP_VERSION=${{ github.ref_name }}
