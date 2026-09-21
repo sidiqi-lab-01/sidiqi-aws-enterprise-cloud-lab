@@ -1,8 +1,10 @@
 module "network" {
   source = "../../modules/network"
 
-  project_name = var.project_name
-  environment  = var.environment
+  project_name            = var.project_name
+  environment             = var.environment
+  public_domain_name      = "sidiqilab.com"
+  application_domain_name = "aws.sidiqilab.com"
 
   vpc_cidr = "10.0.0.0/16"
 
