@@ -44,3 +44,8 @@ variable "application_image" {
   description = "Immutable ECR image URI deployed to application instances."
   type        = string
 }
+
+variable "application_version" {
+  description = "Version identifier exposed by the application"
+  type        = string
+}

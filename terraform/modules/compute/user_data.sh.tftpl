@@ -22,6 +22,7 @@ docker rm -f sidiqi-enterprise-cloud-lab 2>/dev/null || true
 docker run -d \
   --name sidiqi-enterprise-cloud-lab \
   --restart unless-stopped \
+  -e APP_VERSION="${application_version}" \
   -p 8080:8080 \
   "${application_image}"
 
