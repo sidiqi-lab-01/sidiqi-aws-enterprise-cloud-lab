@@ -9,6 +9,8 @@ STATIC_DIR = APP_DIR / "static"
 
 APP_NAME = "AWS Enterprise Cloud Lab"
 APP_VERSION = os.getenv("APP_VERSION", "development")
+APP_ENVIRONMENT = os.getenv("APP_ENVIRONMENT", "production")
+AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 PORT = int(os.getenv("PORT", "8080"))
 
 
@@ -56,6 +58,30 @@ class LabHandler(BaseHTTPRequestHandler):
             self.send_json({
                 "name": APP_NAME,
                 "version": APP_VERSION
+            })
+            return
+
+        if self.path == "/api/status":
+            self.send_json({
+                "application": {
+                    "name": APP_NAME,
+                    "status": "healthy",
+                    "version": APP_VERSION
+                },
+                "deployment": {
+                    "environment": APP_ENVIRONMENT,
+                    "platform": "AWS",
+                    "region": AWS_REGION,
+                    "runtime": "Docker"
+                },
+                "architecture": {
+                    "dns": "Amazon Route 53",
+                    "tls": "AWS Certificate Manager",
+                    "load_balancer": "Application Load Balancer",
+                    "compute": "Amazon EC2 Auto Scaling",
+                    "container_registry": "Amazon ECR",
+                    "infrastructure_as_code": "Terraform"
+                }
             })
             return
 

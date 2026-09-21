@@ -3,38 +3,93 @@ async function loadApplicationStatus() {
   const versionElement = document.getElementById("version");
   const heroHealth = document.getElementById("hero-health");
   const heroVersion = document.getElementById("hero-version");
+  const pulse = document.getElementById("operations-pulse");
+  const refreshState = document.getElementById("operations-refresh-state");
+  const refreshButton = document.getElementById("refresh-status");
+
+  refreshButton.disabled = true;
+  refreshState.textContent = "Refreshing live status...";
 
   try {
-    const [healthResponse, versionResponse] = await Promise.all([
-      fetch("/health", { cache: "no-store" }),
-      fetch("/api/version", { cache: "no-store" })
-    ]);
+    const response = await fetch("/api/status", {
+      cache: "no-store"
+    });
 
-    if (!healthResponse.ok || !versionResponse.ok) {
-      throw new Error("Application API unavailable");
+    if (!response.ok) {
+      throw new Error("Operations API unavailable");
     }
 
-    const health = await healthResponse.json();
-    const version = await versionResponse.json();
+    const status = await response.json();
+    const application = status.application;
+    const deployment = status.deployment;
+    const architecture = status.architecture;
+    const healthy = application.status === "healthy";
 
-    const healthy = health.status === "healthy";
-    const healthText = healthy
+    healthElement.textContent = healthy
       ? "Application Healthy"
       : "Application Degraded";
 
-    healthElement.textContent = healthText;
-    versionElement.textContent = version.version;
-
+    versionElement.textContent = application.version;
     heroHealth.textContent = healthy ? "Healthy" : "Degraded";
-    heroVersion.textContent = version.version;
+    heroVersion.textContent = application.version;
+
+    document.getElementById("operations-name").textContent =
+      application.name;
+
+    document.getElementById("operations-environment").textContent =
+      deployment.environment;
+
+    document.getElementById("operations-platform").textContent =
+      deployment.platform;
+
+    document.getElementById("operations-region").textContent =
+      deployment.region;
+
+    document.getElementById("operations-runtime").textContent =
+      deployment.runtime;
+
+    document.getElementById("operations-runtime-detail").textContent =
+      deployment.runtime;
+
+    document.getElementById("operations-dns").textContent =
+      architecture.dns;
+
+    document.getElementById("operations-tls").textContent =
+      architecture.tls;
+
+    document.getElementById("operations-alb").textContent =
+      architecture.load_balancer;
+
+    document.getElementById("operations-compute").textContent =
+      architecture.compute;
+
+    document.getElementById("operations-registry").textContent =
+      architecture.container_registry;
+
+    document.getElementById("operations-iac").textContent =
+      architecture.infrastructure_as_code;
+
+    pulse.classList.toggle("unavailable", !healthy);
+
+    refreshState.textContent =
+      `Live API · ${new Date().toLocaleTimeString()}`;
   } catch (error) {
     healthElement.textContent = "Status Unavailable";
     versionElement.textContent = "Unavailable";
     heroHealth.textContent = "Unavailable";
     heroVersion.textContent = "Unavailable";
+    pulse.classList.add("unavailable");
+    refreshState.textContent = "Operations API unavailable";
+  } finally {
+    refreshButton.disabled = false;
   }
 }
 
+function initializeStatusRefresh() {
+  const refreshButton = document.getElementById("refresh-status");
+
+  refreshButton.addEventListener("click", loadApplicationStatus);
+}
 
 function initializePageSearch() {
   const toggle = document.getElementById("search-toggle");
@@ -145,4 +200,5 @@ function initializePageSearch() {
 
 
 loadApplicationStatus();
+initializeStatusRefresh();
 initializePageSearch();
