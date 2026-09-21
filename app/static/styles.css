@@ -1554,3 +1554,59 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================
+   Unified public dashboard alignment
+   ========================================================== */
+
+.architecture-explorer {
+  width: 100%;
+  margin: 0;
+}
+
+.architecture-explorer-inner {
+  width: min(var(--max), 92%);
+  margin-inline: auto;
+}
+
+/*
+ * Keep every primary dashboard section on the same horizontal
+ * grid established by the global .container.
+ */
+#status > .container,
+#architecture-explorer > .container,
+#iac > .container,
+#devsecops > .container,
+.project-section > .container {
+  width: min(var(--max), 92%);
+  margin-inline: auto;
+}
+
+/*
+ * Normalize primary section vertical rhythm without changing
+ * their internal component layouts.
+ */
+#status,
+#architecture-explorer,
+#iac,
+#devsecops,
+.project-section {
+  box-sizing: border-box;
+}
+
+/* Explorer participates in the same responsive grid. */
+@media (max-width: 800px) {
+  .architecture-explorer-inner {
+    width: min(var(--max), 92%);
+  }
+}
+
+@media (max-width: 550px) {
+  #status > .container,
+  #architecture-explorer > .container,
+  #iac > .container,
+  #devsecops > .container,
+  .project-section > .container {
+    width: 92%;
+  }
+}
