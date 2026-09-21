@@ -19,6 +19,16 @@ resource "aws_autoscaling_group" "application" {
     version = "$Latest"
   }
 
+  instance_refresh {
+    strategy = "Rolling"
+
+    preferences {
+      min_healthy_percentage = 50
+      instance_warmup        = 300
+    }
+
+  }
+
   tag {
     key                 = "Name"
     value               = "${var.project_name}-${var.environment}-application"

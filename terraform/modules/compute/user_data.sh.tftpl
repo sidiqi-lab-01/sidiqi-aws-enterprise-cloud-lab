@@ -1,0 +1,43 @@
+#!/bin/bash
+set -euo pipefail
+
+exec > >(tee /var/log/sidiqi-application-bootstrap.log | logger -t user-data -s 2>/dev/console) 2>&1
+
+echo "Starting enterprise application bootstrap"
+
+dnf install -y docker
+systemctl enable --now docker
+
+ECR_REGISTRY="$(echo "${application_image}" | cut -d/ -f1)"
+
+aws ecr get-login-password --region "${aws_region}" \
+  | docker login \
+      --username AWS \
+      --password-stdin "$ECR_REGISTRY"
+
+docker pull "${application_image}"
+
+docker rm -f sidiqi-enterprise-cloud-lab 2>/dev/null || true
+
+docker run -d \
+  --name sidiqi-enterprise-cloud-lab \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  "${application_image}"
+
+echo "Waiting for application health endpoint"
+
+for attempt in $(seq 1 30); do
+  if curl --fail --silent http://127.0.0.1:8080/health; then
+    echo
+    echo "Application bootstrap completed successfully"
+    exit 0
+  fi
+
+  echo "Health check attempt $attempt failed; retrying..."
+  sleep 5
+done
+
+echo "Application failed to become healthy"
+docker logs sidiqi-enterprise-cloud-lab || true
+exit 1

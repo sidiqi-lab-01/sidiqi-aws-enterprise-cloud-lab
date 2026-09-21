@@ -39,3 +39,8 @@ variable "target_group_arn" {
   description = "ALB target group ARN for application instances."
   type        = string
 }
+
+variable "application_image" {
+  description = "Immutable ECR image URI deployed to application instances."
+  type        = string
+}

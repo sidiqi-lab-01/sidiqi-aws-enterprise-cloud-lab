@@ -15,4 +15,6 @@ module "compute" {
   application_security_group_id = module.network.application_security_group_id
   instance_profile_name         = module.iam.ec2_workload_instance_profile_name
   target_group_arn              = module.network.application_target_group_arn
+
+  application_image = "785823823915.dkr.ecr.us-east-1.amazonaws.com/sidiqi-aws-enterprise-cloud-lab-lab-application@sha256:6174cb8698a62682e3017b8221ecb8fa596fb56b9fd2cc2d56c8227caf6d72a6"
 }
