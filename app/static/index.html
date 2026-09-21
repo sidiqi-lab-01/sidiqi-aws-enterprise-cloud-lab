@@ -751,6 +751,246 @@ Infrastructure managed through code.</code></pre>
   </div>
 </section>
 
+
+<section class="architecture-explorer section-shell"
+         id="architecture-explorer">
+
+  <div class="section-heading">
+    <span class="section-kicker">SYSTEM DESIGN</span>
+    <h2>Interactive Cloud Architecture Explorer</h2>
+    <p>
+      Explore the production architecture by engineering domain.
+      Select a layer to see its AWS services, responsibilities,
+      security controls, and role in the application delivery path.
+    </p>
+  </div>
+
+  <div class="architecture-layout">
+
+    <nav class="architecture-tabs"
+         aria-label="Cloud architecture domains">
+
+      <button class="architecture-tab active"
+              data-architecture="networking"
+              type="button">
+        Networking
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="security"
+              type="button">
+        Security
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="compute"
+              type="button">
+        Compute
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="storage"
+              type="button">
+        Storage
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="database"
+              type="button">
+        Database
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="containers"
+              type="button">
+        Containers
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="devsecops"
+              type="button">
+        DevSecOps
+      </button>
+
+      <button class="architecture-tab"
+              data-architecture="operations"
+              type="button">
+        Operations
+      </button>
+
+    </nav>
+
+    <article class="architecture-panel"
+             aria-live="polite">
+
+      <div class="architecture-panel-header">
+
+        <div>
+          <span class="architecture-domain-label">
+            ACTIVE ARCHITECTURE DOMAIN
+          </span>
+
+          <h3 id="architecture-title">
+            Networking
+          </h3>
+        </div>
+
+        <span class="architecture-status">
+          IMPLEMENTED
+        </span>
+
+      </div>
+
+      <p id="architecture-description"
+         class="architecture-description"></p>
+
+      <div id="architecture-services"
+           class="architecture-services"></div>
+
+      <div class="architecture-detail-grid">
+
+        <div class="architecture-detail">
+          <span>RESPONSIBILITY</span>
+          <p id="architecture-responsibility"></p>
+        </div>
+
+        <div class="architecture-detail">
+          <span>ENGINEERING VALUE</span>
+          <p id="architecture-value"></p>
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+  <div class="architecture-flow">
+
+    <div class="flow-heading">
+      <span>PRODUCTION REQUEST FLOW</span>
+      <strong>
+        Internet → DNS → TLS → Load Balancer →
+        Auto Scaling → Docker
+      </strong>
+    </div>
+
+    <div class="flow-track">
+
+      <div class="flow-node">
+        <span>01</span>
+        <strong>Internet</strong>
+        <small>Client Request</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>02</span>
+        <strong>Route 53</strong>
+        <small>DNS</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>03</span>
+        <strong>ACM</strong>
+        <small>TLS</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>04</span>
+        <strong>ALB</strong>
+        <small>Traffic</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>05</span>
+        <strong>EC2 ASG</strong>
+        <small>Compute</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>06</span>
+        <strong>Docker</strong>
+        <small>Application</small>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="architecture-flow deployment-flow">
+
+    <div class="flow-heading">
+      <span>APPLICATION DELIVERY FLOW</span>
+      <strong>
+        Git → Pull Request → CI → ECR →
+        Launch Template → Rolling Deployment
+      </strong>
+    </div>
+
+    <div class="flow-track">
+
+      <div class="flow-node">
+        <span>01</span>
+        <strong>Git</strong>
+        <small>Source</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>02</span>
+        <strong>PR</strong>
+        <small>Review</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>03</span>
+        <strong>Actions</strong>
+        <small>CI</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>04</span>
+        <strong>ECR</strong>
+        <small>Registry</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>05</span>
+        <strong>Template</strong>
+        <small>Release</small>
+      </div>
+
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-node">
+        <span>06</span>
+        <strong>ASG</strong>
+        <small>Rollout</small>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 </main>
 
 
