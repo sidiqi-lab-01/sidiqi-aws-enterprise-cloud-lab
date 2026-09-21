@@ -16,5 +16,6 @@ module "compute" {
   instance_profile_name         = module.iam.ec2_workload_instance_profile_name
   target_group_arn              = module.network.application_target_group_arn
 
-  application_image = "785823823915.dkr.ecr.us-east-1.amazonaws.com/sidiqi-aws-enterprise-cloud-lab-lab-application@sha256:6174cb8698a62682e3017b8221ecb8fa596fb56b9fd2cc2d56c8227caf6d72a6"
+  application_image   = "785823823915.dkr.ecr.us-east-1.amazonaws.com/sidiqi-aws-enterprise-cloud-lab-lab-application@sha256:989be90502e17814bf91057d4044258ee252801ae6a96a03fe8dfad4bd9a55e9"
+  application_version = "web-334c28c"
 }

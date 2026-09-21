@@ -4,7 +4,8 @@ resource "aws_launch_template" "application" {
   instance_type = local.ec2_baseline.instance_type
 
   user_data = base64encode(templatefile("${path.module}/user_data.sh.tftpl", {
-    application_image = var.application_image
+    application_image   = var.application_image
+    application_version = var.application_version
     aws_region        = "us-east-1"
   }))
 
