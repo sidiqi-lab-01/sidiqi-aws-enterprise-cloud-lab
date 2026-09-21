@@ -18,6 +18,12 @@
     },
     "web": {
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f88008d-cfde-4e12-bcc2-b4513c07b427"
+      }
+    },
+    "owner": "qmsqms"
   }
 }
