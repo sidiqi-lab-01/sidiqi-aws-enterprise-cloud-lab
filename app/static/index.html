@@ -578,54 +578,148 @@ Infrastructure managed through code.</code></pre>
 
 <section id="status">
   <div class="container">
-
     <div class="section-heading">
       <div>
         <span class="section-label">OPERATIONS</span>
-        <h2>Live Application Status</h2>
+        <h2>Production Operations Dashboard</h2>
       </div>
-
       <p>
-        Runtime health and application version retrieved directly from
-        the deployed service APIs.
+        Live application and deployment metadata retrieved from the
+        running service, with the production request path documented
+        alongside it.
       </p>
     </div>
 
-    <div class="status-dashboard">
+    <div class="operations-dashboard">
+      <div class="operations-summary">
+        <div class="operations-health">
+          <div class="pulse" id="operations-pulse"></div>
+          <div>
+            <small>APPLICATION HEALTH</small>
+            <strong id="health">Checking application...</strong>
+            <p id="operations-name">AWS Enterprise Cloud Lab</p>
+          </div>
+        </div>
 
-      <div class="status-primary">
-        <div class="pulse"></div>
-
-        <div>
-          <small>APPLICATION HEALTH</small>
-          <strong id="health">Checking application...</strong>
-          <p>
-            Served through the AWS Application Load Balancer and
-            Auto Scaling application tier.
-          </p>
+        <div class="operations-refresh">
+          <span id="operations-refresh-state">Connecting to service API</span>
+          <button type="button" id="refresh-status">
+            Refresh
+          </button>
         </div>
       </div>
 
-      <div class="status-detail">
-        <small>VERSION</small>
-        <strong id="version">Loading...</strong>
+      <div class="operations-grid">
+        <div class="operations-card">
+          <small>VERSION</small>
+          <strong id="version">Loading...</strong>
+          <span>Currently deployed application build</span>
+        </div>
+
+        <div class="operations-card">
+          <small>ENVIRONMENT</small>
+          <strong id="operations-environment">Loading...</strong>
+          <span>Application deployment environment</span>
+        </div>
+
+        <div class="operations-card">
+          <small>PLATFORM</small>
+          <strong id="operations-platform">Loading...</strong>
+          <span id="operations-region">Loading region...</span>
+        </div>
+
+        <div class="operations-card">
+          <small>RUNTIME</small>
+          <strong id="operations-runtime">Loading...</strong>
+          <span>Containerized application runtime</span>
+        </div>
       </div>
 
-      <div class="status-detail">
-        <small>DEPLOYMENT</small>
-        <strong>Docker / ECR</strong>
-      </div>
+      <div class="operations-lower-grid">
+        <div class="operations-panel">
+          <div class="operations-panel-heading">
+            <div>
+              <small>PRODUCTION REQUEST FLOW</small>
+              <strong>Application delivery path</strong>
+            </div>
+            <span class="live-indicator">LIVE</span>
+          </div>
 
-      <div class="status-detail">
-        <small>COMPUTE</small>
-        <strong>Auto Scaling EC2</strong>
-      </div>
+          <div class="request-flow">
+            <div class="flow-node">
+              <span>01</span>
+              <strong>Internet</strong>
+              <small>HTTPS Request</small>
+            </div>
+            <div class="flow-arrow">→</div>
 
+            <div class="flow-node">
+              <span>02</span>
+              <strong id="operations-dns">Route 53</strong>
+              <small>DNS</small>
+            </div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">
+              <span>03</span>
+              <strong id="operations-tls">ACM</strong>
+              <small>TLS</small>
+            </div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">
+              <span>04</span>
+              <strong id="operations-alb">ALB</strong>
+              <small>Traffic</small>
+            </div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">
+              <span>05</span>
+              <strong id="operations-compute">EC2 Auto Scaling</strong>
+              <small>Compute</small>
+            </div>
+            <div class="flow-arrow">→</div>
+
+            <div class="flow-node">
+              <span>06</span>
+              <strong>Docker App</strong>
+              <small>Runtime</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="operations-panel stack-panel">
+          <div class="operations-panel-heading">
+            <div>
+              <small>ENGINEERING STACK</small>
+              <strong>Deployment controls</strong>
+            </div>
+          </div>
+
+          <div class="stack-list">
+            <div>
+              <span>Container Registry</span>
+              <strong id="operations-registry">Loading...</strong>
+            </div>
+            <div>
+              <span>Infrastructure as Code</span>
+              <strong id="operations-iac">Loading...</strong>
+            </div>
+            <div>
+              <span>Application Runtime</span>
+              <strong id="operations-runtime-detail">Loading...</strong>
+            </div>
+            <div>
+              <span>Health Endpoint</span>
+              <strong>/health</strong>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
 </section>
-
 
 <section class="project-section">
   <div class="container project-card">
