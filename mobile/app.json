@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "AWS Enterprise Cloud Lab",
+    "slug": "aws-enterprise-cloud-lab",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "sidiqilab",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sidiqilab.awsenterprisecloudlab"
+    },
+    "android": {
+      "package": "com.sidiqilab.awsenterprisecloudlab",
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
