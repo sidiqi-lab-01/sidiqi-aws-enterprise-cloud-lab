@@ -30,3 +30,13 @@ variable "private_subnets" {
     availability_zone = string
   }))
 }
+
+variable "public_domain_name" {
+  description = "Public Route 53 domain for the application."
+  type        = string
+}
+
+variable "application_domain_name" {
+  description = "Public fully qualified domain name for the application."
+  type        = string
+}
