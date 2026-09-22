@@ -42,3 +42,23 @@ output "ec2_workload_instance_profile_name" {
   description = "Name of the EC2 workload instance profile."
   value       = aws_iam_instance_profile.ec2_workload.name
 }
+
+output "security_engineer_role_arn" {
+  description = "ARN of the ICAM security engineer RBAC role."
+  value       = aws_iam_role.security_engineer.arn
+}
+
+output "auditor_role_arn" {
+  description = "ARN of the ICAM auditor RBAC role."
+  value       = aws_iam_role.auditor.arn
+}
+
+output "developer_role_arn" {
+  description = "ARN of the ICAM developer RBAC role."
+  value       = aws_iam_role.developer.arn
+}
+
+output "icam_permission_boundary_arn" {
+  description = "ARN of the ICAM workforce permissions boundary."
+  value       = aws_iam_policy.icam_permission_boundary.arn
+}
