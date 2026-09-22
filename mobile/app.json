@@ -8,7 +8,10 @@
     "scheme": "sidiqilab",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sidiqilab.awsenterprisecloudlab"
+      "bundleIdentifier": "com.sidiqilab.awsenterprisecloudlab",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.sidiqilab.awsenterprisecloudlab",
