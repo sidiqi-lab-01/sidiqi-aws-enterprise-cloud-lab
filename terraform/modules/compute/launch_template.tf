@@ -6,7 +6,7 @@ resource "aws_launch_template" "application" {
   user_data = base64encode(templatefile("${path.module}/user_data.sh.tftpl", {
     application_image   = var.application_image
     application_version = var.application_version
-    aws_region        = "us-east-1"
+    aws_region          = "us-east-1"
   }))
 
   iam_instance_profile {

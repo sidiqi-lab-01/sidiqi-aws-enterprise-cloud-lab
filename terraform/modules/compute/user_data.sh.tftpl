@@ -5,8 +5,9 @@ exec > >(tee /var/log/sidiqi-application-bootstrap.log | logger -t user-data -s 
 
 echo "Starting enterprise application bootstrap"
 
-dnf install -y docker
+dnf install -y docker rsyslog amazon-cloudwatch-agent
 systemctl enable --now docker
+systemctl enable --now rsyslog
 
 ECR_REGISTRY="$(echo "${application_image}" | cut -d/ -f1)"
 
