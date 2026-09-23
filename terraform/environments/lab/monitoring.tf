@@ -17,4 +17,5 @@ module "monitoring" {
   vpc_flow_log_group_name = module.network.vpc_flow_log_group_name
 
   log_retention_days = 30
+  alert_email        = var.alert_email
 }
