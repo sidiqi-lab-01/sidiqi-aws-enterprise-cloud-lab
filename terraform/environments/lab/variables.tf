@@ -30,3 +30,11 @@ variable "bootstrap_role_arn" {
     error_message = "bootstrap_role_arn must be a valid IAM role ARN."
   }
 }
+
+variable "alert_email" {
+  description = "Email address subscribed to CloudWatch monitoring alerts"
+  type        = string
+  default     = null
+  nullable    = true
+  sensitive   = true
+}
