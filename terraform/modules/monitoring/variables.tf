@@ -55,3 +55,10 @@ variable "alert_email" {
   default     = null
   nullable    = true
 }
+
+variable "alert_phone_number" {
+  description = "Phone number subscribed to CloudWatch monitoring alerts via SMS"
+  type        = string
+  default     = null
+  nullable    = true
+}

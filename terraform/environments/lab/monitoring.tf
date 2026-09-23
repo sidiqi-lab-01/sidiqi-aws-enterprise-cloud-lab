@@ -18,4 +18,5 @@ module "monitoring" {
 
   log_retention_days = 30
   alert_email        = var.alert_email
+  alert_phone_number = var.alert_phone_number
 }
